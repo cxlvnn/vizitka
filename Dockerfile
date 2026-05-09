@@ -5,6 +5,8 @@ RUN apt-get update && apt-get install -y \
     nginx \
     git \
     curl \
+    ca-certificates \
+    gnupg \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
@@ -12,8 +14,11 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     zip \
     unzip \
-    nodejs \
-    npm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 22 (Debian bookworm ships Node 18 which is too old for Vite 8)
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -44,12 +49,8 @@ RUN npm ci
 # Copy application source
 COPY . .
 
-# Build application
-RUN php artisan wayfinder:generate \
-    && npm run build \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+# Build frontend assets (needs source + node_modules)
+RUN php artisan wayfinder:generate && npm run build
 
 # Nginx config
 COPY docker/render/nginx.conf /etc/nginx/nginx.conf
