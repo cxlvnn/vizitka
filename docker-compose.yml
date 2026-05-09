@@ -12,7 +12,7 @@ services:
         networks:
             - vizitka
         depends_on:
-            - mysql
+            - postgres
 
     nginx:
         image: nginx:alpine
@@ -28,24 +28,23 @@ services:
         depends_on:
             - app
 
-    mysql:
-        image: mysql:8.0
-        container_name: vizitka-mysql
+    postgres:
+        image: postgres:17-alpine
+        container_name: vizitka-postgres
         restart: unless-stopped
         ports:
-            - "3307:3306"
+            - "5432:5432"
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: vizitka
-            MYSQL_USER: vizitka
-            MYSQL_PASSWORD: vizitka
+            POSTGRES_DB: vizitka
+            POSTGRES_USER: vizitka
+            POSTGRES_PASSWORD: vizitka
         volumes:
-            - mysql-data:/var/lib/mysql
+            - postgres-data:/var/lib/postgresql/data
         networks:
             - vizitka
 
 volumes:
-    mysql-data:
+    postgres-data:
 
 networks:
     vizitka:
