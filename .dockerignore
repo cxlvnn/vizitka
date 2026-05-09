@@ -27,7 +27,5 @@ composer.phar
 .github
 .editorconfig
 .styleci.yml
-artisan
 phpunit.xml
 docker-compose.yml
-dockerignore
