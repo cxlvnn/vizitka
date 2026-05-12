@@ -10,12 +10,13 @@ RUN apk add --no-cache \
     unzip \
     oniguruma-dev \
     linux-headers \
+    postgresql-dev \
     nodejs \
     npm
 
 # Install PHP extensions
 RUN docker-php-ext-install \
-    pdo_mysql \
+    pdo_pgsql \
     mbstring \
     exif \
     pcntl \

@@ -14,12 +14,12 @@ if ! grep -q "APP_KEY=" .env || grep -q "APP_KEY=$" .env; then
     php artisan key:generate
 fi
 
-# Wait for MySQL to be ready
-echo "Waiting for MySQL..."
-while ! nc -z mysql 3306; do
+# Wait for PostgreSQL to be ready
+echo "Waiting for PostgreSQL..."
+while ! nc -z postgres 5432; do
     sleep 1
 done
-echo "MySQL is ready."
+echo "PostgreSQL is ready."
 
 # Run migrations
 php artisan migrate --force
