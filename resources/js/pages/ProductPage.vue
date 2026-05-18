@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import {
     Card,
     CardContent,
@@ -11,35 +11,45 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Factory, Phone, MessageCircle } from 'lucide-vue-next';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-import { products, getProductBySlug, categories } from '@/data/products';
 import { home, catalog, contact } from '@/routes';
-import type { Product } from '@/data/products';
 
 defineOptions({ layout: PublicLayout });
 
 const props = defineProps<{
-    slug: string;
+    product: {
+        id: number;
+        slug: string;
+        name: string;
+        sku: string;
+        category: string;
+        description: string;
+        image?: string;
+        specs: Array<{ label: string; value: string }>;
+        moq: string;
+        leadTime: string;
+        customization: boolean;
+        isNew: boolean;
+        discount?: number;
+        isActive: boolean;
+    } | null;
+    relatedProducts: Array<{
+        id: number;
+        slug: string;
+        name: string;
+        sku: string;
+        category: string;
+        description: string;
+        image?: string;
+        moq: string;
+        leadTime: string;
+        customization: boolean;
+        isNew: boolean;
+        discount?: number;
+        specs: Array<{ label: string; value: string }>;
+    }>;
 }>();
 
-const product = ref<Product | undefined>(getProductBySlug(props.slug));
-
-const relatedProducts = ref<Product[]>(
-    product.value
-        ? products
-              .filter(
-                  (p) =>
-                      p.category === product.value?.category &&
-                      p.id !== product.value?.id,
-              )
-              .slice(0, 4)
-        : [],
-);
-
-const categorySlug = computed(() => {
-    if (!product.value) return '';
-    const cat = categories.find((c) => c.name === product.value!.category);
-    return cat?.slug ?? '';
-});
+const categorySlug = computed(() => '');
 
 function getInitials(name: string): string {
     return name

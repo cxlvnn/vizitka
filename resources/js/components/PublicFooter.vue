@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { Phone, Mail, MapPin } from 'lucide-vue-next';
-import { categories } from '@/data/products';
 import { home, catalog, about, contact } from '@/routes';
+
+const page = usePage();
+const categories = computed(() => (page.props.sharedCategories as Array<{
+    slug: string;
+    name: string;
+    itemCount: number;
+}>) ?? []);
+const settings = computed(() => (page.props.sharedSettings as Record<string, string>) ?? {});
 </script>
 
 <template>
@@ -17,11 +25,11 @@ import { home, catalog, about, contact } from '@/routes';
                         >
                             M
                         </div>
-                        Mirum Textile
+                        {{ settings.brand_name || 'Mirum Textile' }}
                     </div>
                     <p class="text-sm text-slate-400">
-                        Производитель текстильных аксессуаров с 2001 года. Воротники, ленты,
-                        шнуры, трикотаж — опт от производителя.
+                        Производитель текстильных аксессуаров с 2001 года. Воротники,
+                        ленты, шнуры, трикотаж — опт от производителя.
                     </p>
                 </div>
 
@@ -71,19 +79,19 @@ import { home, catalog, about, contact } from '@/routes';
                     <ul class="space-y-3">
                         <li class="flex items-center gap-2 text-sm">
                             <Phone class="h-4 w-4 text-blue-400" />
-                            <a href="tel:+998712539540" class="hover:text-white"
-                                >+(99871) 253 95 40</a
+                            <a :href="'tel:' + settings.phone" class="hover:text-white"
+                                >{{ settings.phone || '+(99871) 253 95 40' }}</a
                             >
                         </li>
                         <li class="flex items-center gap-2 text-sm">
                             <Mail class="h-4 w-4 text-blue-400" />
-                            <a href="mailto:info@mirumtextile.uz" class="hover:text-white"
-                                >info@mirumtextile.uz</a
+                            <a :href="'mailto:' + settings.email" class="hover:text-white"
+                                >{{ settings.email || 'info@mirumtextile.uz' }}</a
                             >
                         </li>
                         <li class="flex items-start gap-2 text-sm">
                             <MapPin class="mt-0.5 h-4 w-4 shrink-0 text-blue-400" />
-                            <span>г. Ташкент, Узбекистан</span>
+                            <span>{{ settings.address || 'г. Ташкент, Узбекистан' }}</span>
                         </li>
                     </ul>
                 </div>
@@ -92,7 +100,7 @@ import { home, catalog, about, contact } from '@/routes';
             <div
                 class="mt-8 border-t border-slate-800 pt-8 text-center text-xs text-slate-500"
             >
-                © 2001—2026 «Mirum Textile». Все права защищены.
+                {{ settings.copyright || '© 2001—2026 «Mirum Textile». Все права защищены.' }}
             </div>
         </div>
     </footer>

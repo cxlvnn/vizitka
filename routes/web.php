@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ContactController;
@@ -9,8 +10,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/products/{slug}', [CatalogController::class, 'show'])->name('products.show');
-Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Keep old cart routes for build compatibility (not used in new UI)
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

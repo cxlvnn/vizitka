@@ -19,29 +19,47 @@ import {
 } from '@/components/ui/select';
 import { Check, Factory } from 'lucide-vue-next';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-import {
-    categories,
-    products,
-    getProductsByCategory,
-} from '@/data/products';
 import { home, catalog } from '@/routes';
 
 defineOptions({ layout: PublicLayout });
 
 const props = defineProps<{
-    category?: string;
+    categories: Array<{
+        slug: string;
+        name: string;
+        description: string;
+        itemCount: number;
+    }>;
+    products: Array<{
+        id: number;
+        slug: string;
+        name: string;
+        sku: string;
+        category: string;
+        description: string;
+        image?: string;
+        moq: string;
+        leadTime: string;
+        customization: boolean;
+        isNew: boolean;
+        discount?: number;
+        specs: Array<{ label: string; value: string }>;
+    }>;
+    currentCategory?: {
+        slug: string;
+        name: string;
+        description: string;
+    };
 }>();
 
-const selectedCategory = computed(() => props.category);
+const selectedCategory = computed(() => props.currentCategory?.slug ?? null);
 
 const filteredProducts = computed(() => {
-    if (!selectedCategory.value) return products;
-    return getProductsByCategory(selectedCategory.value);
+    return props.products;
 });
 
 const activeCategory = computed(() => {
-    if (!selectedCategory.value) return null;
-    return categories.find((c) => c.slug === selectedCategory.value);
+    return props.currentCategory ?? null;
 });
 
 function getInitials(name: string): string {
