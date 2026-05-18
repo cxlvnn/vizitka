@@ -18,14 +18,35 @@ import {
     Package,
 } from 'lucide-vue-next';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-import { categories, getNewProducts, getDiscountProducts } from '@/data/products';
 import { catalog, contact, home } from '@/routes';
-import type { Product } from '@/data/products';
 
 defineOptions({ layout: PublicLayout });
 
-const newProducts = getNewProducts();
-const discountProducts = getDiscountProducts();
+const props = defineProps<{
+    categories: Array<{
+        slug: string;
+        name: string;
+        description: string;
+        itemCount: number;
+    }>;
+    newProducts: Array<{
+        id: number;
+        slug: string;
+        name: string;
+        sku: string;
+        image?: string;
+        isNew: boolean;
+    }>;
+    discountProducts: Array<{
+        id: number;
+        slug: string;
+        name: string;
+        sku: string;
+        image?: string;
+        discount?: number;
+    }>;
+    settings: Record<string, string>;
+}>();
 
 function getInitials(name: string): string {
     return name
@@ -36,7 +57,7 @@ function getInitials(name: string): string {
         .toUpperCase();
 }
 
-function discountBadge(product: Product): string {
+function discountBadge(product: { discount?: number }): string {
     return product.discount ? `-${product.discount}%` : '';
 }
 </script>
