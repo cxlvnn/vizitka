@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource\Pages;
+use App\Models\Category;
 use App\Models\Product;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\KeyValue;
@@ -15,10 +20,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -67,7 +68,7 @@ class ProductResource extends Resource
                             ->unique(ignoreRecord: true)
                             ->label('Артикул'),
                         Select::make('category_id')
-                            ->relationship('category', 'name')
+                            ->options(fn (): array => Category::orderBy('sort_order')->orderBy('id')->get()->mapWithKeys(fn ($c) => [$c->id => $c->name])->toArray())
                             ->required()
                             ->label('Категория'),
                         TextInput::make('moq')
@@ -151,7 +152,7 @@ class ProductResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('category_id')
-                    ->relationship('category', 'name')
+                    ->options(fn (): array => Category::orderBy('sort_order')->orderBy('id')->get()->mapWithKeys(fn ($c) => [$c->id => $c->name])->toArray())
                     ->label('Категория'),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Активность'),
