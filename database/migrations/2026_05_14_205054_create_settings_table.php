@@ -8,15 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique();
-            $table->json('value');
-            $table->string('group')->default('general');
-            $table->string('type')->default('text');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('settings')) {
+            Schema::create('settings', function (Blueprint $table) {
+                $table->id();
+                $table->string('key')->unique();
+                $table->json('value');
+                $table->string('group')->default('general');
+                $table->string('type')->default('text');
+                $table->timestamps();
+            });
+        }
     }
+
 
     public function down(): void
     {

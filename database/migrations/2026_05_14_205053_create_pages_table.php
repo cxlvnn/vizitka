@@ -8,16 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
-            $table->id();
-            $table->string('slug')->unique();
-            $table->json('title');
-            $table->json('content');
-            $table->string('meta_title')->nullable();
-            $table->text('meta_description')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('pages')) {
+            Schema::create('pages', function (Blueprint $table) {
+                $table->id();
+                $table->string('slug')->unique();
+                $table->json('title');
+                $table->json('content');
+                $table->string('meta_title')->nullable();
+                $table->text('meta_description')->nullable();
+                $table->boolean('is_active')->default(true);
+                $table->timestamps();
+            });
+        }
     }
 
     public function down(): void
