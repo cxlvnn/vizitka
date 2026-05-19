@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import {
     Card,
     CardContent,
@@ -29,16 +29,19 @@ import {
     Factory,
 } from 'lucide-vue-next';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-import { categories } from '@/data/products';
 import { home } from '@/routes';
 
 defineOptions({ layout: PublicLayout });
 
 const props = defineProps<{
     product?: string;
+    categories: Array<{ slug: string; name: string }>;
 }>();
 
-const form = ref({
+const page = usePage();
+const flashSuccess = computed(() => (page.props.flash as Record<string, string>)?.success);
+
+const form = useForm({
     name: '',
     company: '',
     phone: '',
@@ -48,11 +51,10 @@ const form = ref({
     message: '',
 });
 
-const submitted = ref(false);
-
-function handleSubmit() {
-    // TODO: Send to Telegram
-    submitted.value = true;
+function submit() {
+    form.post('/contact', {
+        onSuccess: () => form.reset(),
+    });
 }
 </script>
 
@@ -150,7 +152,7 @@ function handleSubmit() {
 
             <!-- Quote form -->
             <div class="lg:col-span-2">
-                <Card v-if="!submitted">
+                <Card v-if="!flashSuccess">
                     <CardHeader>
                         <CardTitle>Запросить коммерческое предложение</CardTitle>
                     </CardHeader>
@@ -160,9 +162,10 @@ function handleSubmit() {
                             течение рабочего дня.
                         </p>
                         <form
-                            @submit.prevent="handleSubmit"
+                            @submit.prevent="submit"
                             class="space-y-5"
                         >
+                            <input type="hidden" name="_token" :value="$page.props.csrf_token" />
                             <div class="grid gap-5 sm:grid-cols-2">
                                 <div class="space-y-2">
                                     <Label for="name">Имя *</Label>
@@ -172,6 +175,7 @@ function handleSubmit() {
                                         placeholder="Ваше имя"
                                         required
                                     />
+                                    <div v-if="form.errors.name" class="text-sm text-red-600">{{ form.errors.name }}</div>
                                 </div>
                                 <div class="space-y-2">
                                     <Label for="company">Компания</Label>
@@ -180,6 +184,7 @@ function handleSubmit() {
                                         v-model="form.company"
                                         placeholder="Название компании"
                                     />
+                                    <div v-if="form.errors.company" class="text-sm text-red-600">{{ form.errors.company }}</div>
                                 </div>
                             </div>
 
@@ -193,6 +198,7 @@ function handleSubmit() {
                                         placeholder="+998 __ ___ __ __"
                                         required
                                     />
+                                    <div v-if="form.errors.phone" class="text-sm text-red-600">{{ form.errors.phone }}</div>
                                 </div>
                                 <div class="space-y-2">
                                     <Label for="email">Email</Label>
@@ -202,6 +208,7 @@ function handleSubmit() {
                                         type="email"
                                         placeholder="email@company.uz"
                                     />
+                                    <div v-if="form.errors.email" class="text-sm text-red-600">{{ form.errors.email }}</div>
                                 </div>
                             </div>
 
@@ -227,6 +234,7 @@ function handleSubmit() {
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
+                                    <div v-if="form.errors.product_interest" class="text-sm text-red-600">{{ form.errors.product_interest }}</div>
                                 </div>
                                 <div class="space-y-2">
                                     <Label for="quantity">Объем заказа</Label>
@@ -235,6 +243,7 @@ function handleSubmit() {
                                         v-model="form.quantity"
                                         placeholder="Например: 1000 шт"
                                     />
+                                    <div v-if="form.errors.quantity" class="text-sm text-red-600">{{ form.errors.quantity }}</div>
                                 </div>
                             </div>
 
@@ -246,6 +255,7 @@ function handleSubmit() {
                                     placeholder="Опишите ваши требования, желаемые сроки и особенности..."
                                     rows="4"
                                 />
+                                <div v-if="form.errors.message" class="text-sm text-red-600">{{ form.errors.message }}</div>
                             </div>
 
                             <div class="flex items-start gap-2">
@@ -271,9 +281,10 @@ function handleSubmit() {
                                 type="submit"
                                 class="bg-blue-700 hover:bg-blue-800"
                                 size="lg"
+                                :disabled="form.processing"
                             >
                                 <Send class="mr-2 h-4 w-4" />
-                                Отправить запрос
+                                {{ form.processing ? 'Отправка...' : 'Отправить запрос' }}
                             </Button>
                         </form>
                     </CardContent>

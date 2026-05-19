@@ -18,11 +18,16 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { categories } from '@/data/products';
 import { home, catalog, about, contact } from '@/routes';
 
 const page = usePage();
 const currentRoute = computed(() => page.url);
+const categories = computed(() => (page.props.sharedCategories as Array<{
+    slug: string;
+    name: string;
+    itemCount: number;
+}>) ?? []);
+const settings = computed(() => (page.props.sharedSettings as Record<string, string>) ?? {});
 
 function isActive(routePath: string): boolean {
     return currentRoute.value.startsWith(routePath);
@@ -43,16 +48,16 @@ const mobileMenuOpen = ref(false);
                 <div class="flex items-center gap-4">
                     <span class="flex items-center gap-1">
                         <Phone class="h-3 w-3" />
-                        <a href="tel:+998712539540" class="hover:underline"
-                            >+(99871) 253 95 40</a
+                        <a :href="'tel:' + settings.phone" class="hover:underline"
+                            >{{ settings.phone || '+(99871) 253 95 40' }}</a
                         >
                     </span>
                     <span class="hidden sm:inline text-slate-400"
-                        >info@mirumtextile.uz</span
+                        >{{ settings.email || 'info@mirumtextile.uz' }}</span
                     >
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="text-slate-400">Режим работы: Пн–Пт, 09:00–18:00</span>
+                    <span class="text-slate-400">{{ settings.working_hours || 'Пн–Пт, 09:00–18:00' }}</span>
                 </div>
             </div>
         </div>
@@ -70,7 +75,7 @@ const mobileMenuOpen = ref(false);
                     >
                         M
                     </div>
-                    <span class="hidden sm:inline">Mirum Textile</span>
+                    <span class="hidden sm:inline">{{ settings.brand_name || 'Mirum Textile' }}</span>
                 </Link>
 
                 <!-- Desktop navigation -->
