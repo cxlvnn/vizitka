@@ -6,16 +6,16 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\SettingResource\Pages;
 use App\Models\Setting;
-use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Resource;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Schema;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -41,16 +41,14 @@ class SettingResource extends Resource
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->label('Ключ'),
-                        KeyValue::make('value')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Значение')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
-                            ])
-                            ->required(),
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('value.ru')
+                                    ->label('Значение (RU)')
+                                    ->required(),
+                                TextInput::make('value.uz')
+                                    ->label('Qiymat (UZ)'),
+                            ]),
                         TextInput::make('group')
                             ->default('general')
                             ->label('Группа'),

@@ -10,7 +10,6 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
@@ -37,24 +36,20 @@ class CategoryResource extends Resource
             ->components([
                 Section::make('Основное')
                     ->schema([
-                        KeyValue::make('name')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Название')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
-                            ])
-                            ->required(),
-                        KeyValue::make('description')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Описание')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('name.ru')
+                                    ->label('Название (RU)')
+                                    ->required(),
+                                TextInput::make('name.uz')
+                                    ->label('Nomi (UZ)'),
+                            ]),
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('description.ru')
+                                    ->label('Описание (RU)'),
+                                TextInput::make('description.uz')
+                                    ->label('Tavsif (UZ)'),
                             ]),
                         TextInput::make('slug')
                             ->required()

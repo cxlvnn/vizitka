@@ -12,12 +12,12 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -41,24 +41,20 @@ class ProductResource extends Resource
             ->components([
                 Section::make('Основное')
                     ->schema([
-                        KeyValue::make('name')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Название')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
-                            ])
-                            ->required(),
-                        KeyValue::make('description')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Описание')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('name.ru')
+                                    ->label('Название (RU)')
+                                    ->required(),
+                                TextInput::make('name.uz')
+                                    ->label('Nomi (UZ)'),
+                            ]),
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('description.ru')
+                                    ->label('Описание (RU)'),
+                                TextInput::make('description.uz')
+                                    ->label('Tavsif (UZ)'),
                             ]),
                         TextInput::make('slug')
                             ->required()
@@ -68,7 +64,7 @@ class ProductResource extends Resource
                             ->unique(ignoreRecord: true)
                             ->label('Артикул'),
                         Select::make('category_id')
-                            ->options(fn (): array => Category::orderBy('sort_order')->orderBy('id')->get()->mapWithKeys(fn ($c) => [$c->id => $c->name])->toArray())
+                            ->options(fn (): array => Category::orderBy('sort_order')->orderBy('id')->get()->mapWithKeys(fn ($c) => [$c->id => $c->slug])->toArray())
                             ->required()
                             ->label('Категория'),
                         TextInput::make('moq')
@@ -133,7 +129,8 @@ class ProductResource extends Resource
                     ->searchable()
                     ->label('Артикул'),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->label('Категория'),
+                    ->label('Категория')
+                    ->formatStateUsing(fn ($record) => json_decode($record->category?->name, true)['ru'] ?? $record->category?->name ?? '—'),
                 Tables\Columns\IconColumn::make('is_new')
                     ->boolean()
                     ->label('Новинка'),

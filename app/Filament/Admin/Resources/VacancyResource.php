@@ -6,17 +6,17 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\VacancyResource\Pages;
 use App\Models\Vacancy;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -38,45 +38,34 @@ class VacancyResource extends Resource
             ->components([
                 Section::make('Основное')
                     ->schema([
-                        KeyValue::make('title')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Заголовок')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
-                            ])
-                            ->required(),
-                        TextInput::make('slug')
-                            ->required()
-                            ->unique(ignoreRecord: true),
-                        KeyValue::make('description')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Описание')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('title.ru')
+                                    ->label('Заголовок (RU)')
+                                    ->required(),
+                                TextInput::make('title.uz')
+                                    ->label('Sarlavha (UZ)'),
                             ]),
-                        KeyValue::make('requirements')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Требования')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
+                        Grid::make(2)
+                            ->schema([
+                                Textarea::make('description.ru')
+                                    ->label('Описание (RU)'),
+                                Textarea::make('description.uz')
+                                    ->label('Tavsif (UZ)'),
                             ]),
-                        KeyValue::make('conditions')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Условия')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
+                        Grid::make(2)
+                            ->schema([
+                                Textarea::make('requirements.ru')
+                                    ->label('Требования (RU)'),
+                                Textarea::make('requirements.uz')
+                                    ->label('Talablar (UZ)'),
+                            ]),
+                        Grid::make(2)
+                            ->schema([
+                                Textarea::make('conditions.ru')
+                                    ->label('Условия (RU)'),
+                                Textarea::make('conditions.uz')
+                                    ->label('Shartlar (UZ)'),
                             ]),
                         Grid::make(2)
                             ->schema([

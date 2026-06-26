@@ -6,17 +6,18 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\PageResource\Pages;
 use App\Models\Page;
-use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Resources\Resource;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Schema;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -38,27 +39,23 @@ class PageResource extends Resource
             ->components([
                 Section::make('Основное')
                     ->schema([
-                        KeyValue::make('title')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Заголовок')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
-                            ])
-                            ->required(),
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('title.ru')
+                                    ->label('Заголовок (RU)')
+                                    ->required(),
+                                TextInput::make('title.uz')
+                                    ->label('Sarlavha (UZ)'),
+                            ]),
                         TextInput::make('slug')
                             ->required()
                             ->unique(ignoreRecord: true),
-                        KeyValue::make('content')
-                            ->keyLabel('Язык')
-                            ->valueLabel('Контент')
-                            ->addable(false)
-                            ->deletable(false)
-                            ->keyOptions([
-                                'ru' => 'Русский',
-                                'uz' => "O'zbekcha",
+                        Grid::make(1)
+                            ->schema([
+                                RichEditor::make('content.ru')
+                                    ->label('Контент (RU)'),
+                                RichEditor::make('content.uz')
+                                    ->label('Kontent (UZ)'),
                             ]),
                         Toggle::make('is_active')
                             ->label('Активна')
