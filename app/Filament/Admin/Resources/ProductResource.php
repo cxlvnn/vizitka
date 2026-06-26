@@ -87,11 +87,13 @@ class ProductResource extends Resource
                     ->schema([
                         FileUpload::make('image')
                             ->image()
+                            ->disk('public')
                             ->directory('products')
                             ->label('Главное изображение'),
                         FileUpload::make('gallery')
                             ->multiple()
                             ->image()
+                            ->disk('public')
                             ->directory('products/gallery')
                             ->label('Галерея'),
                         Grid::make(3)

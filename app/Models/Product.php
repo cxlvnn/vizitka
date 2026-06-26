@@ -54,4 +54,25 @@ class Product extends Model
     {
         return 'slug';
     }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+
+        return asset('storage/'.$this->image);
+    }
+
+    public function getGalleryUrlsAttribute(): array
+    {
+        if (! $this->gallery) {
+            return [];
+        }
+
+        return array_map(
+            fn (string $path) => asset('storage/'.$path),
+            $this->gallery
+        );
+    }
 }

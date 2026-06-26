@@ -61,7 +61,7 @@ class PageController extends Controller
             'sku' => $product->sku,
             'category' => $product->category?->getTranslation('name', 'ru') ?? '',
             'description' => $product->getTranslation('description', 'ru'),
-            'image' => $product->image,
+            'image' => $product->image_url,
             'moq' => $product->moq,
             'leadTime' => $product->lead_time,
             'customization' => $product->customization,
