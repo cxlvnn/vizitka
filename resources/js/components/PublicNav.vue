@@ -30,7 +30,7 @@ const categories = computed(() => (page.props.sharedCategories as Array<{
 const settings = computed(() => (page.props.sharedSettings as Record<string, string>) ?? {});
 
 function isActive(routePath: string): boolean {
-    return currentRoute.value.startsWith(routePath);
+    return currentRoute.value == routePath;
 }
 
 const mobileMenuOpen = ref(false);
@@ -70,11 +70,7 @@ const mobileMenuOpen = ref(false);
                     :href="home()"
                     class="flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900"
                 >
-                    <div
-                        class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-700 text-sm font-bold text-white"
-                    >
-                        M
-                    </div>
+                <img src="/images/logo.jpeg" class="size-6" />
                     <span class="hidden sm:inline">{{ settings.brand_name || 'Mirum Textile' }}</span>
                 </Link>
 
@@ -84,10 +80,10 @@ const mobileMenuOpen = ref(false);
                         <NavigationMenuItem>
                             <NavigationMenuLink as-child>
                                 <Link
-                                    :href="home()"
+                                    :href="home.url()"
                                     :class="[
                                         'inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium transition-colors',
-                                        isActive('/')
+                                        isActive(home.url())
                                             ? 'bg-slate-100 text-slate-900'
                                             : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                                     ]"
@@ -101,7 +97,7 @@ const mobileMenuOpen = ref(false);
                             <NavigationMenuTrigger
                                 :class="[
                                     'h-9 px-4 text-sm font-medium',
-                                    isActive('/catalog')
+                                    isActive(catalog.url())
                                         ? 'bg-slate-100 text-slate-900'
                                         : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                                 ]"
@@ -110,12 +106,12 @@ const mobileMenuOpen = ref(false);
                             </NavigationMenuTrigger>
                             <NavigationMenuContent>
                                 <div
-                                    class="grid w-[500px] gap-3 p-4 md:w-[600px] md:grid-cols-2"
+                                    class="grid w-125 gap-3 p-4 md:w-150 md:grid-cols-2"
                                 >
                                     <Link
                                         v-for="cat in categories"
                                         :key="cat.slug"
-                                        :href="catalog() + '?category=' + cat.slug"
+                                        :href="catalog.url() + '?category=' + cat.slug"
                                         class="group flex flex-col gap-1 rounded-md p-3 hover:bg-slate-50"
                                     >
                                         <div
@@ -134,10 +130,10 @@ const mobileMenuOpen = ref(false);
                         <NavigationMenuItem>
                             <NavigationMenuLink as-child>
                                 <Link
-                                    :href="about()"
+                                    :href="about.url()"
                                     :class="[
                                         'inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium transition-colors',
-                                        isActive('/about')
+                                        isActive(about.url())
                                             ? 'bg-slate-100 text-slate-900'
                                             : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                                     ]"
@@ -150,10 +146,10 @@ const mobileMenuOpen = ref(false);
                         <NavigationMenuItem>
                             <NavigationMenuLink as-child>
                                 <Link
-                                    :href="contact()"
+                                    :href="contact.url()"
                                     :class="[
                                         'inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium transition-colors',
-                                        isActive('/contact')
+                                        isActive(contact.url())
                                             ? 'bg-slate-100 text-slate-900'
                                             : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                                     ]"
@@ -172,7 +168,7 @@ const mobileMenuOpen = ref(false);
                         class="bg-blue-700 hover:bg-blue-800"
                         as-child
                     >
-                        <Link :href="contact()">Запросить КП</Link>
+                        <Link :href="contact.url()">Запросить КП</Link>
                     </Button>
                 </div>
 
@@ -189,7 +185,7 @@ const mobileMenuOpen = ref(false);
                         </SheetHeader>
                         <div class="mt-6 flex flex-col gap-2">
                             <Link
-                                :href="home()"
+                                :href="home.url()"
                                 class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-100"
                                 @click="mobileMenuOpen = false"
                             >
@@ -202,7 +198,7 @@ const mobileMenuOpen = ref(false);
                             <Link
                                 v-for="cat in categories"
                                 :key="cat.slug"
-                                :href="catalog() + '?category=' + cat.slug"
+                                :href="catalog.url() + '?category=' + cat.slug"
                                 class="flex items-center gap-2 rounded-md px-6 py-2 text-sm text-slate-600 hover:bg-slate-100"
                                 @click="mobileMenuOpen = false"
                             >
@@ -210,23 +206,23 @@ const mobileMenuOpen = ref(false);
                             </Link>
 
                             <Link
-                                :href="about()"
+                                :href="about.url()"
                                 class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-100"
                                 @click="mobileMenuOpen = false"
                             >
                                 О компании
                             </Link>
                             <Link
-                                :href="contact()"
+                                :href="contact.url()"
                                 class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-100"
                                 @click="mobileMenuOpen = false"
                             >
                                 Контакты
                             </Link>
 
-                            <div class="mt-4 border-t pt-4">
+                            <div class="mt-4 border-t pt-4 px-3">
                                 <Button class="w-full bg-blue-700 hover:bg-blue-800" as-child>
-                                    <Link :href="contact()" @click="mobileMenuOpen = false"
+                                    <Link :href="contact.url()" @click="mobileMenuOpen = false"
                                         >Запросить КП</Link
                                     >
                                 </Button>

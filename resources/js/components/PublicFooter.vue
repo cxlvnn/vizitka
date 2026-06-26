@@ -53,13 +53,13 @@ const settings = computed(() => (page.props.sharedSettings as Record<string, str
                     <h4 class="mb-4 text-sm font-semibold text-white">Компания</h4>
                     <ul class="space-y-2">
                         <li>
-                            <Link :href="about()" class="text-sm text-slate-400 hover:text-white"
+                            <Link :href="about.url()" class="text-sm text-slate-400 hover:text-white"
                                 >О компании</Link
                             >
                         </li>
                         <li>
                             <Link
-                                :href="contact()"
+                                :href="contact.url()"
                                 class="text-sm text-slate-400 hover:text-white"
                                 >Контакты</Link
                             >

@@ -21,23 +21,31 @@ const props = defineProps<{
         slug: string;
         name: string;
         sku: string;
-        category: string;
+        category: {
+            id: number
+            name: string
+            slug: string
+        };
         description: string;
         image?: string;
-        specs: Array<{ label: string; value: string }>;
+        specs: Record<string, string>;
         moq: string;
         leadTime: string;
         customization: boolean;
         isNew: boolean;
         discount?: number;
-        isActive: boolean;
+        gallery?: string[];
     } | null;
     relatedProducts: Array<{
         id: number;
         slug: string;
         name: string;
         sku: string;
-        category: string;
+        category: {
+            id: number
+            name: string
+            slug: string
+        };
         description: string;
         image?: string;
         moq: string;
@@ -45,11 +53,11 @@ const props = defineProps<{
         customization: boolean;
         isNew: boolean;
         discount?: number;
-        specs: Array<{ label: string; value: string }>;
+        specs: Record<string, string>;
     }>;
 }>();
 
-const categorySlug = computed(() => '');
+const categorySlug = computed(() => props.product?.category.slug);
 
 function getInitials(name: string): string {
     return name
@@ -78,10 +86,10 @@ function getInitials(name: string): string {
             </Link>
             <span>/</span>
             <Link
-                :href="catalog() + (categorySlug ? '?category=' + categorySlug : '')"
+                :href="catalog.url() + (categorySlug ? '?category=' + categorySlug : '')"
                 class="hover:text-slate-900 hover:underline"
             >
-                {{ product.category }}
+                {{ product.category.name }}
             </Link>
             <span>/</span>
             <span class="text-slate-900">{{ product.name }}</span>
@@ -107,13 +115,30 @@ function getInitials(name: string): string {
                         {{ getInitials(product.name) }}
                     </div>
                 </div>
+                <div
+                    v-if="product.gallery && product.gallery.length"
+                    class="grid grid-cols-4 gap-2"
+                >
+                    <button
+                        v-for="img in product.gallery"
+                        :key="img"
+                        class="flex items-center justify-center rounded-lg bg-slate-100 p-1"
+                        @click="product.image = img"
+                    >
+                        <img
+                            :src="img"
+                            :alt="product.name"
+                            class="h-20 w-full rounded-lg object-cover"
+                        />
+                    </button>
+                </div>
             </div>
 
             <!-- Info -->
             <div class="flex flex-col gap-6">
                 <div>
                     <div class="mb-2 flex items-center gap-2">
-                        <Badge variant="secondary">{{ product.category }}</Badge>
+                        <Badge variant="secondary">{{ product.category.name }}</Badge>
                         <Badge v-if="product.isNew" class="bg-emerald-600 text-white">
                             Новинка
                         </Badge>
@@ -141,15 +166,15 @@ function getInitials(name: string): string {
                     </h3>
                     <div class="divide-y rounded-md border">
                         <div
-                            v-for="spec in product.specs"
-                            :key="spec.label"
+                            v-for="[key, value] in Object.entries(product.specs)"
+                            :key="key"
                             class="flex items-center justify-between px-4 py-3"
                         >
                             <span class="text-sm font-medium text-slate-600">
-                                {{ spec.label }}
+                                {{ key }}
                             </span>
                             <span class="text-sm text-slate-900">
-                                {{ spec.value }}
+                                {{ value }}
                             </span>
                         </div>
                     </div>
@@ -158,7 +183,7 @@ function getInitials(name: string): string {
                 <!-- CTAs -->
                 <div class="space-y-3">
                     <Button class="w-full bg-blue-700 hover:bg-blue-800" size="lg" as-child>
-                        <Link :href="contact() + '?product=' + product.slug">
+                        <Link :href="contact.url() + '?product=' + product.slug">
                             Запросить коммерческое предложение
                             <ArrowRight class="ml-2 h-4 w-4" />
                         </Link>
@@ -201,7 +226,7 @@ function getInitials(name: string): string {
                         class="h-full overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg"
                     >
                         <div
-                            class="flex aspect-[3/2] items-center justify-center bg-slate-100"
+                            class="flex aspect-3/2 items-center justify-center bg-slate-100"
                         >
                             <div
                                 v-if="rp.image"

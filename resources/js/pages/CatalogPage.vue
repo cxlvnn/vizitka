@@ -138,7 +138,7 @@ function getInitials(name: string): string {
                             <Link
                                 v-for="cat in categories"
                                 :key="cat.slug"
-                                :href="catalog() + '?category=' + cat.slug"
+                                :href="catalog.url() + '?category=' + cat.slug"
                                 :class="[
                                     'flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors',
                                     selectedCategory === cat.slug

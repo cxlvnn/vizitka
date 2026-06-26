@@ -196,7 +196,7 @@ function discountBadge(product: { discount?: number }): string {
                 <Link
                     v-for="cat in categories"
                     :key="cat.slug"
-                    :href="catalog() + '?category=' + cat.slug"
+                    :href="catalog.url() + '?category=' + cat.slug"
                     class="group block"
                 >
                     <Card
