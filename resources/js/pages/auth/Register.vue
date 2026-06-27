@@ -6,19 +6,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslations } from '@/composables/useTranslations';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 
+const { __ } = useTranslations();
+
 defineOptions({
     layout: {
-        title: 'Create account',
-        description: 'Join us and start shopping today',
+        title: __('Create account'),
+        description: __('Join us and start shopping today'),
     },
 });
 </script>
 
 <template>
-    <Head title="Register" />
+    <Head :title="__('Register')" />
 
     <Form
         v-bind="store.form()"
@@ -28,7 +31,7 @@ defineOptions({
     >
         <div class="grid gap-5">
             <div class="grid gap-2">
-                <Label for="name">Name</Label>
+                <Label for="name">{{ __('Name') }}</Label>
                 <Input
                     id="name"
                     type="text"
@@ -36,46 +39,46 @@ defineOptions({
                     autofocus
                     autocomplete="name"
                     name="name"
-                    placeholder="Your full name"
+                    :placeholder="__('Your full name')"
                 />
                 <InputError :message="errors.name" />
             </div>
 
             <div class="grid gap-2">
-                <Label for="email">Email</Label>
+                <Label for="email">{{ __('Email') }}</Label>
                 <Input
                     id="email"
                     type="email"
                     required
                     autocomplete="email"
                     name="email"
-                    placeholder="you@example.com"
+                    :placeholder="__('you@example.com')"
                 />
                 <InputError :message="errors.email" />
             </div>
 
             <div class="grid gap-2">
-                <Label for="password">Password</Label>
+                <Label for="password">{{ __('Password') }}</Label>
                 <Input
                     id="password"
                     type="password"
                     required
                     autocomplete="new-password"
                     name="password"
-                    placeholder="Choose a strong password"
+                    :placeholder="__('Choose a strong password')"
                 />
                 <InputError :message="errors.password" />
             </div>
 
             <div class="grid gap-2">
-                <Label for="password_confirmation">Confirm password</Label>
+                <Label for="password_confirmation">{{ __('Confirm password') }}</Label>
                 <Input
                     id="password_confirmation"
                     type="password"
                     required
                     autocomplete="new-password"
                     name="password_confirmation"
-                    placeholder="Repeat your password"
+                    :placeholder="__('Repeat your password')"
                 />
                 <InputError :message="errors.password_confirmation" />
             </div>
@@ -83,13 +86,13 @@ defineOptions({
             <Button type="submit" class="w-full" :disabled="processing"
                 >
                 <Spinner v-if="processing" />
-                Create account
+                {{ __('Create account') }}
             </Button>
         </div>
 
         <div class="text-center text-sm text-muted-foreground">
-            Already have an account?
-            <TextLink :href="login()">Sign in</TextLink>
+            {{ __('Already have an account?') }}
+            <TextLink :href="login()">{{ __('Sign in') }}</TextLink>
         </div>
     </Form>
 </template>

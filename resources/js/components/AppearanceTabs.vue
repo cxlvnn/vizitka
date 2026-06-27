@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { Moon, Sun } from 'lucide-vue-next';
+import { useTranslations } from '@/composables/useTranslations';
+
 import { useAppearance } from '@/composables/useAppearance';
+
+const { __ } = useTranslations();
 
 const { appearance, updateAppearance } = useAppearance();
 
 const tabs = [
-    { value: 'light', Icon: Sun, label: 'Light' },
-    { value: 'dark', Icon: Moon, label: 'Dark' },
+    { value: 'light', Icon: Sun, label: __('Light') },
+    { value: 'dark', Icon: Moon, label: __('Dark') },
 ] as const;
 </script>
 

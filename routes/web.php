@@ -26,3 +26,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/settings.php';
+
+Route::get('/locale/{locale}', function (string $locale) {
+    if (! in_array($locale, ['en', 'ru', 'uz'])) {
+        abort(400);
+    }
+
+    return redirect()->back()->withCookie(cookie()->forever('locale', $locale));
+})->name('locale.switch');

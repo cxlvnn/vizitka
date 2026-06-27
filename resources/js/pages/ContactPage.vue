@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { useTranslations } from '@/composables/useTranslations';
 import {
     Card,
     CardContent,
@@ -31,6 +32,7 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 import { home } from '@/routes';
 
 defineOptions({ layout: PublicLayout });
+const { __ } = useTranslations();
 
 const props = defineProps<{
     product?: string;
@@ -59,26 +61,26 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Контакты — Mirum Textile" />
+    <Head :title="__('Contacts') + ' \u2014 Mirum Textile'" />
 
     <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <!-- Breadcrumb -->
         <nav class="mb-6 flex items-center gap-2 text-sm text-slate-500">
             <Link :href="home()" class="hover:text-slate-900 hover:underline"
-                >Главная</Link
+                >{{ __('Home') }}</Link
             >
             <span>/</span>
-            <span class="text-slate-900">Контакты</span>
+            <span class="text-slate-900">{{ __('Contacts') }}</span>
         </nav>
 
-        <h1 class="mb-8 text-3xl font-bold text-slate-900">Контакты</h1>
+        <h1 class="mb-8 text-3xl font-bold text-slate-900">{{ __('Contacts') }}</h1>
 
         <div class="grid gap-8 lg:grid-cols-3">
             <!-- Contact info sidebar -->
             <div class="space-y-6">
                 <Card>
                     <CardHeader class="pb-3">
-                        <CardTitle class="text-base">Контактная информация</CardTitle>
+                        <CardTitle class="text-base">{{ __('Contact Information') }}</CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-4">
                         <div class="flex items-start gap-3">
@@ -90,7 +92,7 @@ function submit() {
                                     Mirum Textile
                                 </p>
                                 <p class="text-sm text-slate-500">
-                                    {{ settings.address || 'г. Ташкент, Узбекистан' }}
+                                    {{ settings.address || __('Tashkent, Uzbekistan') }}
                                 </p>
                             </div>
                         </div>
@@ -128,7 +130,7 @@ function submit() {
                         <div class="flex items-center gap-3">
                             <Clock class="h-5 w-5 text-blue-600" />
                             <span class="text-sm text-slate-500"
-                                >{{ settings.working_hours || 'Пн–Пт, 09:00–18:00' }}</span
+                                >{{ settings.working_hours || __('Mon\u2013Fri, 09:00\u201318:00') }}</span
                             >
                         </div>
                     </CardContent>
@@ -136,12 +138,12 @@ function submit() {
 
                 <Card>
                     <CardHeader class="pb-3">
-                        <CardTitle class="text-base">Быстрый контакт</CardTitle>
+                        <CardTitle class="text-base">{{ __('Quick Contact') }}</CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3">
                         <Button variant="outline" class="w-full" as-child>
                             <a :href="'tel:' + (settings.phone || '+998712539540')"
-                                ><Phone class="mr-2 h-4 w-4" />Позвонить</a
+                                ><Phone class="mr-2 h-4 w-4" />{{ __('Call') }}</a
                             >
                         </Button>
                     </CardContent>
@@ -158,12 +160,11 @@ function submit() {
             <div class="lg:col-span-2">
                 <Card v-if="!flashSuccess">
                     <CardHeader>
-                        <CardTitle>Запросить коммерческое предложение</CardTitle>
+                        <CardTitle>{{ __('Request a commercial proposal') }}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p class="mb-6 text-slate-600">
-                            Оставьте заявку — наш менеджер свяжется с вами в
-                            течение рабочего дня.
+                            {{ __('Leave a request \u2014 our manager will contact you within one business day.') }}
                         </p>
                         <form
                             @submit.prevent="submit"
@@ -172,61 +173,53 @@ function submit() {
                             <input type="hidden" name="_token" :value="$page.props.csrf_token" />
                             <div class="grid gap-5 sm:grid-cols-2">
                                 <div class="space-y-2">
-                                    <Label for="name">Имя *</Label>
+                                    <Label for="name">{{ __('Name *') }}</Label>
                                     <Input
                                         id="name"
                                         v-model="form.name"
-                                        placeholder="Ваше имя"
+                                        :placeholder="__('Your name')"
                                         required
-                                    />
                                     <div v-if="form.errors.name" class="text-sm text-red-600">{{ form.errors.name }}</div>
                                 </div>
                                 <div class="space-y-2">
-                                    <Label for="company">Компания</Label>
+                                    <Label for="company">{{ __('Company') }}</Label>
                                     <Input
                                         id="company"
                                         v-model="form.company"
-                                        placeholder="Название компании"
-                                    />
-                                    <div v-if="form.errors.company" class="text-sm text-red-600">{{ form.errors.company }}</div>
+                                        :placeholder="__('Company name')"
                                 </div>
                             </div>
 
                             <div class="grid gap-5 sm:grid-cols-2">
                                 <div class="space-y-2">
-                                    <Label for="phone">Телефон *</Label>
+                                    <Label for="phone">{{ __('Phone *') }}</Label>
                                     <Input
                                         id="phone"
                                         v-model="form.phone"
                                         type="tel"
                                         placeholder="+998 __ ___ __ __"
                                         required
-                                    />
                                     <div v-if="form.errors.phone" class="text-sm text-red-600">{{ form.errors.phone }}</div>
                                 </div>
                                 <div class="space-y-2">
-                                    <Label for="email">Email</Label>
+                                    <Label for="email">{{ __('Email') }}</Label>
                                     <Input
                                         id="email"
                                         v-model="form.email"
                                         type="email"
                                         placeholder="email@company.uz"
-                                    />
                                     <div v-if="form.errors.email" class="text-sm text-red-600">{{ form.errors.email }}</div>
                                 </div>
                             </div>
 
                             <div class="grid gap-5 sm:grid-cols-2">
                                 <div class="space-y-2">
-                                    <Label for="product"
-                                        >Интересующая продукция</Label
-                                    >
+                                    <Label for="product">{{ __('Product of interest') }}</Label>
                                     <Select v-model="form.product_interest"
                                         >
                                         <SelectTrigger>
                                             <SelectValue
-                                                placeholder="Выберите категорию"
-                                            />
+                                                :placeholder="__('Select a category')"
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem
@@ -241,23 +234,21 @@ function submit() {
                                     <div v-if="form.errors.product_interest" class="text-sm text-red-600">{{ form.errors.product_interest }}</div>
                                 </div>
                                 <div class="space-y-2">
-                                    <Label for="quantity">Объем заказа</Label>
+                                    <Label for="quantity">{{ __('Order volume') }}</Label>
                                     <Input
                                         id="quantity"
                                         v-model="form.quantity"
-                                        placeholder="Например: 1000 шт"
-                                    />
+                                        :placeholder="__('e.g. 1000 pcs')"
                                     <div v-if="form.errors.quantity" class="text-sm text-red-600">{{ form.errors.quantity }}</div>
                                 </div>
                             </div>
 
                             <div class="space-y-2">
-                                <Label for="message">Сообщение</Label>
+                                <Label for="message">{{ __('Message') }}</Label>
                                 <Textarea
                                     id="message"
                                     v-model="form.message"
-                                    placeholder="Опишите ваши требования, желаемые сроки и особенности..."
-                                    rows="4"
+                                    :placeholder="__('Describe your requirements, desired timeline and specifics...')"
                                 />
                                 <div v-if="form.errors.message" class="text-sm text-red-600">{{ form.errors.message }}</div>
                             </div>
@@ -271,13 +262,7 @@ function submit() {
                                 />
                                 <Label for="consent" class="text-xs text-slate-500"
                                     >
-                                    Я согласен на обработку персональных данных
-                                    в соответствии с
-                                    <a
-                                        href="#"
-                                        class="underline hover:text-slate-900"
-                                        >политикой конфиденциальности</a
-                                    >
+                                    {{ __('I agree to the processing of personal data in accordance with the privacy policy') }}
                                 </Label>
                             </div>
 
@@ -288,7 +273,7 @@ function submit() {
                                 :disabled="form.processing"
                             >
                                 <Send class="mr-2 h-4 w-4" />
-                                {{ form.processing ? 'Отправка...' : 'Отправить запрос' }}
+                                {{ form.processing ? __('Sending...') : __('Send Request') }}
                             </Button>
                         </form>
                     </CardContent>
@@ -302,12 +287,11 @@ function submit() {
                             <Send class="h-8 w-8 text-emerald-600" />
                         </div>
                         <h3 class="mb-2 text-xl font-semibold text-emerald-900"
-                            >Заявка отправлена!</h3
+                            >{{ __('Request Sent!') }}</h3
                         >
                         <p class="text-emerald-700"
                             >
-                            Мы получили ваш запрос и свяжемся с вами в течение
-                            рабочего дня.
+                            {{ __('We have received your request and will contact you within one business day.') }}
                         </p>
                     </CardContent>
                 </Card>

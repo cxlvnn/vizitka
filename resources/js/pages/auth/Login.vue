@@ -7,14 +7,17 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslations } from '@/composables/useTranslations';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
+const { __ } = useTranslations();
+
 defineOptions({
     layout: {
-        title: 'Welcome back',
-        description: 'Sign in to your account to continue shopping',
+        title: __('Welcome back'),
+        description: __('Sign in to your account to continue shopping'),
     },
 });
 
@@ -26,7 +29,7 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Log in" />
+    <Head :title="__('Log in')" />
 
     <div
         v-if="status"
@@ -43,7 +46,7 @@ defineProps<{
     >
         <div class="grid gap-5">
             <div class="grid gap-2">
-                <Label for="email">Email</Label>
+                <Label for="email">{{ __('Email') }}</Label>
                 <Input
                     id="email"
                     type="email"
@@ -51,20 +54,20 @@ defineProps<{
                     required
                     autofocus
                     autocomplete="email"
-                    placeholder="you@example.com"
+                    :placeholder="__('you@example.com')"
                 />
                 <InputError :message="errors.email" />
             </div>
 
             <div class="grid gap-2">
                 <div class="flex items-center justify-between">
-                    <Label for="password">Password</Label>
+                    <Label for="password">{{ __('Password') }}</Label>
                     <TextLink
                         v-if="canResetPassword"
                         :href="request()"
                         class="text-xs"
                     >
-                        Forgot password?
+                        {{ __('Forgot password?') }}
                     </TextLink>
                 </div>
                 <Input
@@ -73,7 +76,7 @@ defineProps<{
                     name="password"
                     required
                     autocomplete="current-password"
-                    placeholder="Enter your password"
+                    :placeholder="__('Enter your password')"
                 />
                 <InputError :message="errors.password" />
             </div>
@@ -81,14 +84,14 @@ defineProps<{
             <div class="flex items-center gap-2">
                 <Checkbox id="remember" name="remember" />
                 <Label for="remember" class="text-sm font-normal"
-                    >Remember me</Label
+                    >{{ __('Remember me') }}</Label
                 >
             </div>
 
             <Button type="submit" class="w-full" :disabled="processing"
                 >
                 <Spinner v-if="processing" />
-                Sign in
+                {{ __('Sign in') }}
             </Button>
         </div>
 
@@ -96,8 +99,8 @@ defineProps<{
             class="text-center text-sm text-muted-foreground"
             v-if="canRegister"
         >
-            Don't have an account?
-            <TextLink :href="register()">Create one</TextLink>
+            {{ __("Don't have an account?") }}
+            <TextLink :href="register()">{{ __('Create one') }}</TextLink>
         </div>
     </Form>
 </template>

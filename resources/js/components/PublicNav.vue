@@ -2,6 +2,8 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { Menu, X, Phone, ChevronDown } from 'lucide-vue-next';
+import LocalePicker from '@/components/LocalePicker.vue';
+import { useTranslations } from '@/composables/useTranslations';
 import { Button } from '@/components/ui/button';
 import {
     NavigationMenu,
@@ -28,6 +30,7 @@ const categories = computed(() => (page.props.sharedCategories as Array<{
     itemCount: number;
 }>) ?? []);
 const settings = computed(() => (page.props.sharedSettings as Record<string, string>) ?? {});
+const { __ } = useTranslations();
 
 function isActive(routePath: string): boolean {
     return currentRoute.value == routePath;
@@ -57,7 +60,7 @@ const mobileMenuOpen = ref(false);
                     >
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="text-slate-400">{{ settings.working_hours || 'Пн–Пт, 09:00–18:00' }}</span>
+                    <span class="text-slate-400">{{ settings.working_hours || __('Mon\u2013Fri, 09:00\u201318:00') }}</span>
                 </div>
             </div>
         </div>
@@ -88,7 +91,7 @@ const mobileMenuOpen = ref(false);
                                             : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                                     ]"
                                 >
-                                    Главная
+                                    {{ __('Home') }}
                                 </Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
@@ -102,7 +105,7 @@ const mobileMenuOpen = ref(false);
                                         : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                                 ]"
                             >
-                                Продукция
+                                {{ __('Products') }}
                             </NavigationMenuTrigger>
                             <NavigationMenuContent>
                                 <div
@@ -120,7 +123,7 @@ const mobileMenuOpen = ref(false);
                                             {{ cat.name }}
                                         </div>
                                         <div class="text-xs text-slate-500">
-                                            {{ cat.itemCount }} позиций
+                                            {{ cat.itemCount }} {{ __('items') }}
                                         </div>
                                     </Link>
                                 </div>
@@ -138,7 +141,7 @@ const mobileMenuOpen = ref(false);
                                             : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                                     ]"
                                 >
-                                    О компании
+                                    {{ __('About Us') }}
                                 </Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
@@ -154,7 +157,7 @@ const mobileMenuOpen = ref(false);
                                             : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
                                     ]"
                                 >
-                                    Контакты
+                                    {{ __('Contacts') }}
                                 </Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
@@ -163,12 +166,13 @@ const mobileMenuOpen = ref(false);
 
                 <!-- Right side CTA -->
                 <div class="hidden items-center gap-2 lg:flex">
+                    <LocalePicker />
                     <Button
                         size="sm"
                         class="bg-blue-700 hover:bg-blue-800"
                         as-child
                     >
-                        <Link :href="contact.url()">Запросить КП</Link>
+                        <Link :href="contact.url()">{{ __('Request a Quote') }}</Link>
                     </Button>
                 </div>
 
@@ -181,7 +185,7 @@ const mobileMenuOpen = ref(false);
                     </SheetTrigger>
                     <SheetContent side="right" class="w-80">
                         <SheetHeader>
-                            <SheetTitle>Меню</SheetTitle>
+                            <SheetTitle>{{ __('Menu') }}</SheetTitle>
                         </SheetHeader>
                         <div class="mt-6 flex flex-col gap-2">
                             <Link
@@ -189,11 +193,11 @@ const mobileMenuOpen = ref(false);
                                 class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-100"
                                 @click="mobileMenuOpen = false"
                             >
-                                Главная
+                                {{ __('Home') }}
                             </Link>
 
                             <div class="px-3 py-2 text-sm font-semibold text-slate-500">
-                                Продукция
+                                {{ __('Products') }}
                             </div>
                             <Link
                                 v-for="cat in categories"
@@ -210,20 +214,21 @@ const mobileMenuOpen = ref(false);
                                 class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-100"
                                 @click="mobileMenuOpen = false"
                             >
-                                О компании
+                                {{ __('About Us') }}
                             </Link>
                             <Link
                                 :href="contact.url()"
                                 class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-slate-100"
                                 @click="mobileMenuOpen = false"
                             >
-                                Контакты
+                                {{ __('Contacts') }}
                             </Link>
 
-                            <div class="mt-4 border-t pt-4 px-3">
+                            <div class="mt-4 border-t pt-4 px-3 flex flex-col gap-2">
+                                <LocalePicker />
                                 <Button class="w-full bg-blue-700 hover:bg-blue-800" as-child>
                                     <Link :href="contact.url()" @click="mobileMenuOpen = false"
-                                        >Запросить КП</Link
+                                        >{{ __('Request a Quote') }}</Link
                                     >
                                 </Button>
                             </div>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
+import { useTranslations } from '@/composables/useTranslations';
+
 import { LogOut, ShoppingCart, Store } from 'lucide-vue-next';
 import {
     DropdownMenuGroup,
@@ -12,6 +14,8 @@ import { logout } from '@/routes';
 import { home } from '@/routes';
 import { index as cartIndex } from '@/routes/cart';
 import type { User } from '@/types';
+
+const { __ } = useTranslations();
 
 type Props = {
     user: User;
@@ -35,13 +39,13 @@ defineProps<Props>();
         <DropdownMenuItem :as-child="true">
             <Link class="block w-full cursor-pointer" :href="home()" prefetch>
                 <Store class="mr-2 h-4 w-4" />
-                Shop
+                {{ __('Shop') }}
             </Link>
         </DropdownMenuItem>
         <DropdownMenuItem :as-child="true">
             <Link class="block w-full cursor-pointer" :href="cartIndex()" prefetch>
                 <ShoppingCart class="mr-2 h-4 w-4" />
-                Cart
+                {{ __('Cart') }}
             </Link>
         </DropdownMenuItem>
     </DropdownMenuGroup>
@@ -55,7 +59,7 @@ defineProps<Props>();
             data-test="logout-button"
         >
             <LogOut class="mr-2 h-4 w-4" />
-            Log out
+            {{ __('Log out') }}
         </Link>
     </DropdownMenuItem>
 </template>

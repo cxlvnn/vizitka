@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { Head, Form, Link } from '@inertiajs/vue3';
+import type { CartItem } from '@/types';
+import { useTranslations } from '@/composables/useTranslations';
+
 import ShopNav from '@/components/ShopNav.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +12,8 @@ import { home } from '@/routes';
 import { show } from '@/routes/products';
 import { update, remove, clear } from '@/routes/cart';
 import type { CartItem } from '@/types';
+
+const { __ } = useTranslations();
 
 const props = defineProps<{
     cartItems: CartItem[];
@@ -25,10 +30,10 @@ function formatPrice(price: number): string {
 
 <template>
     <ShopNav />
-    <Head title="Cart" />
+    <Head :title="__('Cart')" />
 
     <div class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
-        <h1 class="mb-6 text-3xl font-bold">Shopping Cart</h1>
+        <h1 class="mb-6 text-3xl font-bold">{{ __('Shopping Cart') }}</h1>
 
         <div v-if="cartItems.length" class="flex flex-col gap-4">
             <div
@@ -44,7 +49,7 @@ function formatPrice(price: number): string {
                         {{ item.name }}
                     </Link>
                     <p class="text-sm text-muted-foreground">
-                        {{ formatPrice(item.price) }} each
+                        {{ formatPrice(item.price) }} {{ __('each') }}
                     </p>
                 </div>
 
@@ -73,7 +78,7 @@ function formatPrice(price: number): string {
                             :disabled="processing"
                         >
                             <Spinner v-if="processing" />
-                            Update
+                            {{ __('Update') }}
                         </Button>
                     </Form>
 
@@ -95,7 +100,7 @@ function formatPrice(price: number): string {
                             class="text-destructive hover:text-destructive"
                         >
                             <Spinner v-if="processing" />
-                            Remove
+                            {{ __('Remove') }}
                         </Button>
                     </Form>
                 </div>
@@ -103,7 +108,7 @@ function formatPrice(price: number): string {
 
             <div class="mt-4 rounded-lg border p-4">
                 <div class="flex items-center justify-between">
-                    <span class="text-lg font-semibold">Total</span>
+                    <span class="text-lg font-semibold">{{ __('Total') }}</span>
                     <span class="text-xl font-bold">
                         {{ formatPrice(total) }}
                     </span>
@@ -113,19 +118,19 @@ function formatPrice(price: number): string {
             <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:justify-end">
                 <Form v-bind="clear.form()">
                     <Button type="submit" variant="outline"
-                        >Clear Cart</Button
+                        >{{ __('Clear Cart') }}</Button
                     >
                 </Form>
                 <Button as-child>
-                    <Link :href="home()">Continue Shopping</Link>
+                    <Link :href="home()">{{ __('Continue Shopping') }}</Link>
                 </Button>
             </div>
         </div>
 
         <div v-else class="py-20 text-center">
-            <p class="mb-4 text-muted-foreground">Your cart is empty.</p>
+            <p class="mb-4 text-muted-foreground">{{ __('Your cart is empty.') }}</p>
             <Button as-child>
-                <Link :href="home()">Start Shopping</Link>
+                <Link :href="home()">{{ __('Start Shopping') }}</Link>
             </Button>
         </div>
     </div>

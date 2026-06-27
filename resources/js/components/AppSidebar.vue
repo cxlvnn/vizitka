@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import type { NavItem } from '@/types';
+import { useTranslations } from '@/composables/useTranslations';
+
 import { LayoutGrid, ShoppingCart, Store } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
+import LocalePicker from '@/components/LocalePicker.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -15,21 +19,22 @@ import {
 } from '@/components/ui/sidebar';
 import { home, dashboard } from '@/routes';
 import { index as cartIndex } from '@/routes/cart';
-import type { NavItem } from '@/types';
+
+const { __ } = useTranslations();
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Shop',
+        title: __('Shop'),
         href: home(),
         icon: Store,
     },
     {
-        title: 'Dashboard',
+        title: __('Dashboard'),
         href: dashboard(),
         icon: LayoutGrid,
     },
     {
-        title: 'Cart',
+        title: __('Cart'),
         href: cartIndex(),
         icon: ShoppingCart,
     },
@@ -55,6 +60,9 @@ const mainNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
+            <div class="px-2 pb-2">
+                <LocalePicker />
+            </div>
             <NavUser />
         </SidebarFooter>
     </Sidebar>

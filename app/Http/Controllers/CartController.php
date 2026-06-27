@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class CartController extends Controller
 {
-    public function index(Request $request): \Inertia\Response
+    public function index(Request $request): Response
     {
         $cart = $request->session()->get('cart', []);
         $productIds = array_keys($cart);
@@ -27,7 +29,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function add(Request $request): \Illuminate\Http\RedirectResponse
+    public function add(Request $request): RedirectResponse
     {
         $request->validate([
             'product_id' => ['required', 'exists:products,id'],
@@ -41,10 +43,10 @@ class CartController extends Controller
         $cart[$productId] = ($cart[$productId] ?? 0) + $quantity;
         $request->session()->put('cart', $cart);
 
-        return back()->with('success', 'Added to cart');
+        return back()->with('success', __('Added to cart'));
     }
 
-    public function update(Request $request): \Illuminate\Http\RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
         $request->validate([
             'product_id' => ['required', 'exists:products,id'],
@@ -58,7 +60,7 @@ class CartController extends Controller
         return back();
     }
 
-    public function remove(Request $request): \Illuminate\Http\RedirectResponse
+    public function remove(Request $request): RedirectResponse
     {
         $request->validate([
             'product_id' => ['required', 'exists:products,id'],
@@ -71,7 +73,7 @@ class CartController extends Controller
         return back();
     }
 
-    public function clear(Request $request): \Illuminate\Http\RedirectResponse
+    public function clear(Request $request): RedirectResponse
     {
         $request->session()->forget('cart');
 

@@ -43,6 +43,6 @@ class ContactController extends Controller
 
         QuoteRequest::create(array_merge($validated, ['status' => 'new']));
 
-        return redirect() - back()->with('success', 'Заявка отправлена! Мы свяжемся с вами в течение рабочего дня.');
+        return redirect()->back()->with('success', __('Request sent! We will contact you within one business day.'));
     }
 }

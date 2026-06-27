@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,9 +13,11 @@ import {
     Package,
 } from 'lucide-vue-next';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { useTranslations } from '@/composables/useTranslations';
 import { catalog, contact, home } from '@/routes';
 
 defineOptions({ layout: PublicLayout });
+const { __ } = useTranslations();
 
 const props = defineProps<{
     categories: Array<{
@@ -63,7 +60,11 @@ function discountBadge(product: { discount?: number }): string {
 </script>
 
 <template>
-    <Head title="Mirum Textile — Текстильные аксессуары от производителя" />
+    <Head
+        :title="
+            __('Textile accessories from the manufacturer') + ' | Mirum Textile'
+        "
+    />
 
     <!-- Hero -->
     <section class="relative bg-slate-900 text-white">
@@ -73,20 +74,26 @@ function discountBadge(product: { discount?: number }): string {
                     variant="outline"
                     class="mb-4 border-blue-400 text-blue-300"
                 >
-                    Производитель с 2001 года
+                    {{ __('Textile accessories from the manufacturer') }}
                 </Badge>
-                <h1 class="mb-4 text-4xl font-bold leading-tight sm:text-5xl">
-                    Текстильные аксессуары от производителя с 2001 года
+                <h1 class="mb-4 text-4xl leading-tight font-bold sm:text-5xl">
+                    {{ __('Textile accessories from the manufacturer') }}
                 </h1>
                 <p class="mb-8 text-lg text-slate-300">
-                    Производство плосковязаных воротников и манжетов, шнуров,
-                    лент, готовых трикотажных изделий и шарфов. Качество,
-                    которому доверяют с 2001 года.
+                    {{
+                        __(
+                            'Production of flat-knit collars and cuffs, cords, ribbons, finished knitwear and scarves.',
+                        )
+                    }}
                 </p>
                 <div class="flex flex-wrap gap-3">
-                    <Button size="lg" class="bg-blue-600 hover:bg-blue-700" as-child>
+                    <Button
+                        size="lg"
+                        class="bg-blue-600 hover:bg-blue-700"
+                        as-child
+                    >
                         <Link :href="catalog()">
-                            Смотреть продукцию
+                            {{ __('View Products') }}
                             <ArrowRight class="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
@@ -96,7 +103,9 @@ function discountBadge(product: { discount?: number }): string {
                         class="border-white bg-transparent text-white hover:bg-white hover:text-slate-900"
                         as-child
                     >
-                        <Link :href="contact()">Запросить КП</Link>
+                        <Link :href="contact()">{{
+                            __('Request a Quote')
+                        }}</Link>
                     </Button>
                 </div>
             </div>
@@ -115,10 +124,10 @@ function discountBadge(product: { discount?: number }): string {
                     </div>
                     <div>
                         <div class="font-semibold text-slate-900">
-                            Качество изделий
+                            {{ __('Product Quality') }}
                         </div>
                         <div class="text-sm text-slate-500">
-                            Контроль на всех этапах
+                            {{ __('Quality control at every stage') }}
                         </div>
                     </div>
                 </div>
@@ -130,10 +139,10 @@ function discountBadge(product: { discount?: number }): string {
                     </div>
                     <div>
                         <div class="font-semibold text-slate-900">
-                            Богатый ассортимент
+                            {{ __('Wide Assortment') }}
                         </div>
                         <div class="text-sm text-slate-500">
-                            5+ категорий, 100+ позиций
+                            {{ __('5+ categories, 100+ items') }}
                         </div>
                     </div>
                 </div>
@@ -145,10 +154,10 @@ function discountBadge(product: { discount?: number }): string {
                     </div>
                     <div>
                         <div class="font-semibold text-slate-900">
-                            Любой проект под заказ
+                            {{ __('Custom Projects') }}
                         </div>
                         <div class="text-sm text-slate-500">
-                            Логотип, цвета, размеры
+                            {{ __('Logo, colors, sizes') }}
                         </div>
                     </div>
                 </div>
@@ -160,10 +169,10 @@ function discountBadge(product: { discount?: number }): string {
                     </div>
                     <div>
                         <div class="font-semibold text-slate-900">
-                            Честные сроки
+                            {{ __('Honest Deadlines') }}
                         </div>
                         <div class="text-sm text-slate-500">
-                            Выполняем в срок
+                            {{ __('We deliver on time') }}
                         </div>
                     </div>
                 </div>
@@ -175,10 +184,10 @@ function discountBadge(product: { discount?: number }): string {
                     </div>
                     <div>
                         <div class="font-semibold text-slate-900">
-                            Разумные цены
+                            {{ __('Reasonable Prices') }}
                         </div>
                         <div class="text-sm text-slate-500">
-                            Опт от производителя
+                            {{ __('Wholesale from manufacturer') }}
                         </div>
                     </div>
                 </div>
@@ -190,9 +199,11 @@ function discountBadge(product: { discount?: number }): string {
     <section class="bg-slate-50 py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6">
             <h2 class="mb-10 text-center text-3xl font-bold text-slate-900">
-                Наша продукция
+                {{ __('Our Products') }}
             </h2>
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <div
+                class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+            >
                 <Link
                     v-for="cat in categories"
                     :key="cat.slug"
@@ -210,16 +221,18 @@ function discountBadge(product: { discount?: number }): string {
                             />
                         </div>
                         <CardHeader class="p-4 pb-2">
-                            <CardTitle class="text-base">{{ cat.name }}</CardTitle>
+                            <CardTitle class="text-base">{{
+                                cat.name
+                            }}</CardTitle>
                         </CardHeader>
                         <CardContent class="p-4 pt-0">
                             <p class="text-sm text-slate-500">
-                                {{ cat.itemCount }} позиций
+                                {{ cat.itemCount }} {{ __('items') }}
                             </p>
                             <p
                                 class="mt-2 text-sm font-medium text-blue-700 group-hover:underline"
                             >
-                                Перейти →
+                                {{ __('Go to \u2192') }}
                             </p>
                         </CardContent>
                     </Card>
@@ -232,12 +245,14 @@ function discountBadge(product: { discount?: number }): string {
     <section class="bg-white py-16" v-if="newProducts.length">
         <div class="mx-auto max-w-7xl px-4 sm:px-6">
             <div class="mb-10 flex items-center justify-between">
-                <h2 class="text-3xl font-bold text-slate-900">Новая продукция</h2>
+                <h2 class="text-3xl font-bold text-slate-900">
+                    {{ __('New Products') }}
+                </h2>
                 <Link
                     :href="catalog()"
                     class="text-sm font-medium text-blue-700 hover:underline"
                 >
-                    Вся продукция →
+                    {{ __('All Products \u2192') }}
                 </Link>
             </div>
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -271,22 +286,24 @@ function discountBadge(product: { discount?: number }): string {
                             </div>
                             <Badge
                                 v-if="product.isNew"
-                                class="absolute left-2 top-2 bg-emerald-600 text-white"
+                                class="absolute top-2 left-2 bg-emerald-600 text-white"
                             >
-                                Новинка
+                                {{ __('New') }}
                             </Badge>
                         </div>
                         <CardHeader class="p-4 pb-0">
-                            <CardTitle class="text-base">{{ product.name }}</CardTitle>
+                            <CardTitle class="text-base">{{
+                                product.name
+                            }}</CardTitle>
                         </CardHeader>
                         <CardContent class="p-4 pt-2">
                             <p class="text-xs text-slate-500">
-                                Артикул: {{ product.sku }}
+                                {{ __('SKU:') }} {{ product.sku }}
                             </p>
                             <p
                                 class="mt-2 text-sm font-medium text-blue-700 group-hover:underline"
                             >
-                                Подробнее →
+                                {{ __('Details \u2192') }}
                             </p>
                         </CardContent>
                     </Card>
@@ -299,15 +316,19 @@ function discountBadge(product: { discount?: number }): string {
     <section class="bg-slate-50 py-16" v-if="discountProducts.length">
         <div class="mx-auto max-w-7xl px-4 sm:px-6">
             <div class="mb-10 flex items-center justify-between">
-                <h2 class="text-3xl font-bold text-slate-900">Скидки</h2>
+                <h2 class="text-3xl font-bold text-slate-900">
+                    {{ __('Discounts') }}
+                </h2>
                 <Link
                     :href="catalog()"
                     class="text-sm font-medium text-blue-700 hover:underline"
                 >
-                    Все товары со скидкой →
+                    {{ __('All discounted products \u2192') }}
                 </Link>
             </div>
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div
+                class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            >
                 <Link
                     v-for="product in discountProducts"
                     :key="product.id"
@@ -337,22 +358,24 @@ function discountBadge(product: { discount?: number }): string {
                                 {{ getInitials(product.name) }}
                             </div>
                             <div
-                                class="absolute right-2 top-2 flex h-12 w-12 items-center justify-center rounded-full bg-orange-600 text-xs font-bold text-white"
+                                class="absolute top-2 right-2 flex h-12 w-12 items-center justify-center rounded-full bg-orange-600 text-xs font-bold text-white"
                             >
                                 -{{ product.discount }}%
                             </div>
                         </div>
                         <CardHeader class="p-4 pb-0">
-                            <CardTitle class="text-base">{{ product.name }}</CardTitle>
+                            <CardTitle class="text-base">{{
+                                product.name
+                            }}</CardTitle>
                         </CardHeader>
                         <CardContent class="p-4 pt-2">
                             <p class="text-xs text-slate-500">
-                                Артикул: {{ product.sku }}
+                                {{ __('SKU:') }} {{ product.sku }}
                             </p>
                             <p
                                 class="mt-2 text-sm font-medium text-blue-700 group-hover:underline"
                             >
-                                Подробнее →
+                                {{ __('Details \u2192') }}
                             </p>
                         </CardContent>
                     </Card>
@@ -372,22 +395,26 @@ function discountBadge(product: { discount?: number }): string {
                 </div>
                 <div>
                     <h2 class="mb-4 text-3xl font-bold text-slate-900">
-                        О компании
+                        {{ __('About the Company') }}
                     </h2>
                     <p class="mb-4 text-slate-600">
-                        Mirum Textile — производитель текстильных аксессуаров и
-                        готовых трикотажных изделий. С 2001 года мы
-                        обеспечиваем фабрики и бренды качественной продукцией
-                        для швейной и обувной промышленности.
+                        {{
+                            __(
+                                'MIRUM TEXTILE is a textile company operating in Uzbekistan, specializing in knitted textile accessories and auxiliary products for garment manufacturers. We produce rib collars, rib cuffs, drawcords, webbing tape, bias tape, and custom knitted products.',
+                            )
+                        }}
                     </p>
                     <p class="mb-6 text-slate-600">
-                        Наше производство оснащено современным оборудованием,
-                        позволяющим изготавливать изделия любой сложности — от
-                        стандартных воротников до уникальных жаккардовых лент с
-                        логотипом.
+                        {{
+                            __(
+                                'We use high-quality raw materials and modern equipment, fulfilling orders of any size \u2014 from small batches to large-scale production \u2014 for both domestic and export markets.',
+                            )
+                        }}
                     </p>
                     <Button class="bg-blue-700 hover:bg-blue-800" as-child>
-                        <Link :href="'/about'">Узнать больше о компании</Link>
+                        <Link :href="'/about'">{{
+                            __('Learn more about the company')
+                        }}</Link>
                     </Button>
                 </div>
             </div>

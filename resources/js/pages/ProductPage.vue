@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { useTranslations } from '@/composables/useTranslations';
 import {
     Card,
     CardContent,
@@ -14,6 +15,7 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 import { home, catalog, contact } from '@/routes';
 
 defineOptions({ layout: PublicLayout });
+const { __ } = useTranslations();
 
 const props = defineProps<{
     product: {
@@ -73,8 +75,8 @@ function getInitials(name: string): string {
     <Head
         :title="
             product
-                ? `${product.name} — арт. ${product.sku} | Mirum Textile`
-                : 'Товар не найден | Mirum Textile'
+                ? `${product.name} \u2014 ${__('SKU:')} ${product.sku} | Mirum Textile`
+                : `${__('Product Not Found')} | Mirum Textile`
         "
     />
 
@@ -82,7 +84,7 @@ function getInitials(name: string): string {
         <!-- Breadcrumb -->
         <nav class="mb-6 flex items-center gap-2 text-sm text-slate-500">
             <Link :href="home()" class="hover:text-slate-900 hover:underline">
-                Главная
+                {{ __('Home') }}
             </Link>
             <span>/</span>
             <Link
@@ -140,7 +142,7 @@ function getInitials(name: string): string {
                     <div class="mb-2 flex items-center gap-2">
                         <Badge variant="secondary">{{ product.category.name }}</Badge>
                         <Badge v-if="product.isNew" class="bg-emerald-600 text-white">
-                            Новинка
+                            {{ __('New') }}
                         </Badge>
                         <Badge
                             v-if="product.discount"
@@ -153,7 +155,7 @@ function getInitials(name: string): string {
                         {{ product.name }}
                     </h1>
                     <p class="mt-1 text-sm text-slate-500">
-                        Артикул: {{ product.sku }}
+                        {{ __('SKU:') }} {{ product.sku }}
                     </p>
                 </div>
 
@@ -162,7 +164,7 @@ function getInitials(name: string): string {
                 <!-- Specs table -->
                 <div>
                     <h3 class="mb-3 text-sm font-semibold text-slate-900">
-                        Технические характеристики
+                        {{ __('Technical Specifications') }}
                     </h3>
                     <div class="divide-y rounded-md border">
                         <div
@@ -184,7 +186,7 @@ function getInitials(name: string): string {
                 <div class="space-y-3">
                     <Button class="w-full bg-blue-700 hover:bg-blue-800" size="lg" as-child>
                         <Link :href="contact.url() + '?product=' + product.slug">
-                            Запросить коммерческое предложение
+                            {{ __('Request a Commercial Proposal') }}
                             <ArrowRight class="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
@@ -196,13 +198,13 @@ function getInitials(name: string): string {
                         >
                             <a href="https://wa.me/998712539540" target="_blank">
                                 <MessageCircle class="mr-2 h-4 w-4" />
-                                WhatsApp
+                                {{ __('WhatsApp') }}
                             </a>
                         </Button>
                         <Button variant="outline" class="flex-1" as-child>
                             <a href="tel:+998712539540">
                                 <Phone class="mr-2 h-4 w-4" />
-                                Позвонить
+                                {{ __('Call') }}
                             </a>
                         </Button>
                     </div>
@@ -213,7 +215,7 @@ function getInitials(name: string): string {
         <!-- Related products -->
         <div v-if="relatedProducts.length" class="mt-16">
             <h2 class="mb-6 text-2xl font-bold text-slate-900">
-                Похожие товары
+                {{ __('Related Products') }}
             </h2>
             <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 <Link
@@ -250,7 +252,7 @@ function getInitials(name: string): string {
                         </CardHeader>
                         <CardContent class="p-4 pt-2">
                             <p class="text-xs text-slate-500">
-                                Артикул: {{ rp.sku }}
+                                {{ __('SKU:') }} {{ rp.sku }}
                             </p>
                         </CardContent>
                     </Card>
@@ -265,12 +267,12 @@ function getInitials(name: string): string {
         class="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8"
     >
         <Factory class="mx-auto mb-4 h-16 w-16 text-slate-300" />
-        <h1 class="text-2xl font-bold text-slate-900">Товар не найден</h1>
+        <h1 class="text-2xl font-bold text-slate-900">{{ __('Product Not Found') }}</h1>
         <p class="mt-2 text-slate-500">
-            Возможно, товар был удален или перемещен в другую категорию.
+            {{ __('The product may have been removed or moved to another category.') }}
         </p>
         <Button class="mt-6 bg-blue-700 hover:bg-blue-800" as-child>
-            <Link :href="catalog()">Вернуться в каталог</Link>
+            <Link :href="catalog()">{{ __('Back to Catalog') }}</Link>
         </Button>
     </div>
 </template>

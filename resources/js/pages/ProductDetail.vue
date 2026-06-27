@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { Head, Form, Link } from '@inertiajs/vue3';
+import type { Product } from '@/types';
+import { useTranslations } from '@/composables/useTranslations';
+
 import ShopNav from '@/components/ShopNav.vue';
 import {
     Card,
@@ -15,7 +18,8 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { home } from '@/routes';
 import { add } from '@/routes/cart';
-import type { Product } from '@/types';
+
+const { __ } = useTranslations();
 
 const props = defineProps<{
     product: Product;
@@ -46,7 +50,7 @@ function getInitials(name: string): string {
         <!-- Breadcrumb -->
         <div class="mb-6 text-sm text-muted-foreground">
             <Link :href="home()" class="underline hover:text-foreground">
-                Shop
+                {{ __('Shop') }}
             </Link>
             <span class="mx-2">/</span>
             <span class="text-foreground">{{ product.name }}</span>
@@ -101,7 +105,7 @@ function getInitials(name: string): string {
                         :value="product.id"
                     />
                     <div class="grid gap-2">
-                        <Label for="quantity">Quantity</Label>
+                        <Label for="quantity">{{ __('Quantity') }}</Label>
                         <Input
                             id="quantity"
                             name="quantity"
@@ -115,12 +119,12 @@ function getInitials(name: string): string {
 
                     <Button type="submit" :disabled="processing" class="w-full">
                         <Spinner v-if="processing" />
-                        Add to Cart
+                        {{ __('Add to Cart') }}
                     </Button>
                 </Form>
 
                 <Button variant="outline" class="w-full" as-child>
-                    <Link :href="home()">Continue Shopping</Link>
+                    <Link :href="home()">{{ __('Continue Shopping') }}</Link>
                 </Button>
             </div>
         </div>

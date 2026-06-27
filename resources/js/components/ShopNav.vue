@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
+import { useTranslations } from '@/composables/useTranslations';
+
 import { computed } from 'vue';
 import { ShoppingCart, Store } from 'lucide-vue-next';
+import LocalePicker from '@/components/LocalePicker.vue';
 import { Button } from '@/components/ui/button';
 import { home, login, register, dashboard } from '@/routes';
 import { index as cartIndex } from '@/routes/cart';
+
+const { __ } = useTranslations();
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -24,14 +29,15 @@ const user = computed(() => page.props.auth.user);
                 >
                     S
                 </div>
-                Shop
+                {{ __('Shop') }}
             </Link>
 
             <div class="ml-auto flex items-center gap-2">
+                <LocalePicker />
                 <Button variant="ghost" size="sm" as-child>
                     <Link :href="home()">
                         <Store class="mr-1 h-4 w-4" />
-                        Shop
+                        {{ __('Shop') }}
                     </Link>
                 </Button>
 
@@ -39,20 +45,20 @@ const user = computed(() => page.props.auth.user);
                     <Button variant="ghost" size="sm" as-child>
                         <Link :href="cartIndex()">
                             <ShoppingCart class="mr-1 h-4 w-4" />
-                            Cart
+                            {{ __('Cart') }}
                         </Link>
                     </Button>
                     <Button variant="ghost" size="sm" as-child>
-                        <Link :href="dashboard()">Dashboard</Link>
+                        <Link :href="dashboard()">{{ __('Dashboard') }}</Link>
                     </Button>
                 </template>
 
                 <template v-else>
                     <Button variant="ghost" size="sm" as-child>
-                        <Link :href="login()">Sign in</Link>
+                        <Link :href="login()">{{ __('Sign in') }}</Link>
                     </Button>
                     <Button size="sm" as-child>
-                        <Link :href="register()">Sign up</Link>
+                        <Link :href="register()">{{ __('Sign up') }}</Link>
                     </Button>
                 </template>
             </div>

@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import type { PaginatedProducts, Product, Category } from '@/types';
+import { useTranslations } from '@/composables/useTranslations';
+
 import ShopNav from '@/components/ShopNav.vue';
 import {
     Card,
@@ -20,7 +23,8 @@ import {
 } from '@/components/ui/select';
 import { home } from '@/routes';
 import { show } from '@/routes/products';
-import type { PaginatedProducts, Product, Category } from '@/types';
+
+const { __ } = useTranslations();
 
 const props = defineProps<{
     products: PaginatedProducts;
@@ -47,16 +51,16 @@ function getInitials(name: string): string {
 
 <template>
     <ShopNav />
-    <Head title="Shop" />
+    <Head :title="__('Shop')" />
 
     <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <!-- Hero -->
         <div
             class="mb-10 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 p-8 text-white sm:p-12 dark:from-slate-800 dark:to-slate-700"
         >
-            <h1 class="mb-2 text-3xl font-bold sm:text-4xl">Welcome to Shop</h1>
+            <h1 class="mb-2 text-3xl font-bold sm:text-4xl">{{ __('Welcome to Shop') }}</h1>
             <p class="text-slate-300">
-                Discover great products at amazing prices.
+                {{ __('Discover great products at amazing prices.') }}
             </p>
         </div>
 
@@ -74,10 +78,10 @@ function getInitials(name: string): string {
                 "
             >
                 <SelectTrigger class="w-full sm:w-[220px]">
-                    <SelectValue placeholder="All categories" />
+                    <SelectValue :placeholder="__('All categories')" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="all">All categories</SelectItem>
+                    <SelectItem value="all">{{ __('All categories') }}</SelectItem>
                     <SelectItem
                         v-for="cat in categories"
                         :key="cat"
@@ -89,7 +93,7 @@ function getInitials(name: string): string {
             </Select>
 
             <div class="text-sm text-muted-foreground">
-                {{ products.total }} products found
+                {{ products.total }} {{ __('products found') }}
             </div>
         </div>
 
@@ -156,7 +160,7 @@ function getInitials(name: string): string {
         </div>
 
         <div v-else class="py-20 text-center text-muted-foreground">
-            No products found.
+            {{ __('No products found.') }}
         </div>
 
         <!-- Pagination -->
