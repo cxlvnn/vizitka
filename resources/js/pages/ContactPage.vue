@@ -23,7 +23,6 @@ import {
     Phone,
     Mail,
     MapPin,
-    MessageCircle,
     Send,
     Clock,
     Factory,
@@ -40,6 +39,7 @@ const props = defineProps<{
 
 const page = usePage();
 const flashSuccess = computed(() => (page.props.flash as Record<string, string>)?.success);
+const settings = computed(() => (page.props.sharedSettings as Record<string, string>) ?? {});
 
 const form = useForm({
     name: '',
@@ -90,32 +90,45 @@ function submit() {
                                     Mirum Textile
                                 </p>
                                 <p class="text-sm text-slate-500">
-                                    г. Ташкент, Узбекистан
+                                    {{ settings.address || 'г. Ташкент, Узбекистан' }}
                                 </p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
                             <Phone class="h-5 w-5 text-blue-600" />
                             <a
-                                href="tel:+998712539540"
+                                :href="'tel:' + (settings.phone || '+998712539540')"
                                 class="font-medium text-slate-900 hover:text-blue-700"
                             >
-                                +(99871) 253 95 40
+                                {{ settings.phone || '+(99871) 253 95 40' }}
+                            </a>
+                        </div>
+
+                        <div
+                            v-if="settings.phone_secondary"
+                            class="flex items-center gap-3"
+                        >
+                            <Phone class="h-5 w-5 text-blue-600" />
+                            <a
+                                :href="'tel:' + settings.phone_secondary"
+                                class="font-medium text-slate-900 hover:text-blue-700"
+                            >
+                                {{ settings.phone_secondary }}
                             </a>
                         </div>
                         <div class="flex items-center gap-3">
                             <Mail class="h-5 w-5 text-blue-600" />
                             <a
-                                href="mailto:info@mirumtextile.uz"
+                                :href="'mailto:' + (settings.email || 'info@mirumtextile.uz')"
                                 class="font-medium text-slate-900 hover:text-blue-700"
                             >
-                                info@mirumtextile.uz
+                                {{ settings.email || 'info@mirumtextile.uz' }}
                             </a>
                         </div>
                         <div class="flex items-center gap-3">
                             <Clock class="h-5 w-5 text-blue-600" />
                             <span class="text-sm text-slate-500"
-                                >Пн–Пт, 09:00–18:00</span
+                                >{{ settings.working_hours || 'Пн–Пт, 09:00–18:00' }}</span
                             >
                         </div>
                     </CardContent>
@@ -126,17 +139,8 @@ function submit() {
                         <CardTitle class="text-base">Быстрый контакт</CardTitle>
                     </CardHeader>
                     <CardContent class="space-y-3">
-                        <Button class="w-full bg-emerald-600 hover:bg-emerald-700" as-child>
-                            <a
-                                href="https://wa.me/998712539540"
-                                target="_blank"
-                            >
-                                <MessageCircle class="mr-2 h-4 w-4" />
-                                Написать в WhatsApp
-                            </a>
-                        </Button>
                         <Button variant="outline" class="w-full" as-child>
-                            <a href="tel:+998712539540"
+                            <a :href="'tel:' + (settings.phone || '+998712539540')"
                                 ><Phone class="mr-2 h-4 w-4" />Позвонить</a
                             >
                         </Button>
