@@ -1,3 +1,13 @@
+<script lang="ts">
+defineOptions({
+    layout: {
+        title: 'Confirm your password',
+        description:
+            'This is a secure area of the application. Please confirm your password before continuing.',
+    },
+});
+</script>
+
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
@@ -10,13 +20,6 @@ import { store } from '@/routes/password/confirm';
 
 const { __ } = useTranslations();
 
-defineOptions({
-    layout: {
-        title: __('Confirm your password'),
-        description:
-            __('This is a secure area of the application. Please confirm your password before continuing.'),
-    },
-});
 </script>
 
 <template>

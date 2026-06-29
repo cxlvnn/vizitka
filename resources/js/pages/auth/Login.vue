@@ -1,3 +1,12 @@
+<script lang="ts">
+defineOptions({
+    layout: {
+        title: 'Welcome back',
+        description: 'Sign in to your account to continue shopping',
+    },
+});
+</script>
+
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
@@ -13,13 +22,6 @@ import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
 const { __ } = useTranslations();
-
-defineOptions({
-    layout: {
-        title: __('Welcome back'),
-        description: __('Sign in to your account to continue shopping'),
-    },
-});
 
 defineProps<{
     status?: string;

@@ -1,3 +1,11 @@
+<script lang="ts">
+defineOptions({
+    layout: {
+        breadcrumbs: [{ title: 'Dashboard', href: '#' }],
+    },
+});
+</script>
+
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { index as cartIndex } from '@/routes/cart';
@@ -9,11 +17,6 @@ import { home } from '@/routes';
 
 const { __ } = useTranslations();
 
-defineOptions({
-    layout: {
-        breadcrumbs: [{ title: __('Dashboard'), href: '#' }],
-    },
-});
 </script>
 
 <template>

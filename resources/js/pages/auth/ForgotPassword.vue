@@ -1,3 +1,12 @@
+<script lang="ts">
+defineOptions({
+    layout: {
+        title: 'Forgot password',
+        description: 'Enter your email to receive a password reset link',
+    },
+});
+</script>
+
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
@@ -11,13 +20,6 @@ import { login } from '@/routes';
 import { email } from '@/routes/password';
 
 const { __ } = useTranslations();
-
-defineOptions({
-    layout: {
-        title: __('Forgot password'),
-        description: __('Enter your email to receive a password reset link'),
-    },
-});
 
 defineProps<{
     status?: string;

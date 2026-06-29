@@ -1,21 +1,24 @@
-<script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import { useTranslations } from '@/composables/useTranslations';
-import AppearanceTabs from '@/components/AppearanceTabs.vue';
-import Heading from '@/components/Heading.vue';
+<script lang="ts">
 import { edit } from '@/routes/appearance';
-const { __ } = useTranslations();
-
 defineOptions({
     layout: {
         breadcrumbs: [
             {
-                title: __('Appearance settings'),
+                title: 'Appearance settings',
                 href: edit(),
             },
         ],
     },
 });
+</script>
+
+<script setup lang="ts">
+import { Head } from '@inertiajs/vue3';
+import { useTranslations } from '@/composables/useTranslations';
+import AppearanceTabs from '@/components/AppearanceTabs.vue';
+import Heading from '@/components/Heading.vue';
+const { __ } = useTranslations();
+
 </script>
 
 <template>

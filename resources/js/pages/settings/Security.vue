@@ -1,3 +1,17 @@
+<script lang="ts">
+import { edit } from '@/routes/security';
+defineOptions({
+    layout: {
+        breadcrumbs: [
+            {
+                title: 'Security settings',
+                href: edit(),
+            },
+        ],
+    },
+});
+</script>
+
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import { ShieldCheck } from 'lucide-vue-next';
@@ -12,7 +26,6 @@ import TwoFactorSetupModal from '@/components/TwoFactorSetupModal.vue';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
-import { edit } from '@/routes/security';
 import { disable, enable } from '@/routes/two-factor';
 
 type Props = {
@@ -27,17 +40,6 @@ withDefaults(defineProps<Props>(), {
 });
 
 const { __ } = useTranslations();
-
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            {
-                title: __('Security settings'),
-                href: edit(),
-            },
-        ],
-    },
-});
 
 const { hasSetupData, clearTwoFactorAuthData } = useTwoFactorAuth();
 const showSetupModal = ref<boolean>(false);

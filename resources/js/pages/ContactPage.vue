@@ -179,7 +179,7 @@ function submit() {
                                         v-model="form.name"
                                         :placeholder="__('Your name')"
                                         required
-                                    <div v-if="form.errors.name" class="text-sm text-red-600">{{ form.errors.name }}</div>
+                                    />
                                 </div>
                                 <div class="space-y-2">
                                     <Label for="company">{{ __('Company') }}</Label>
@@ -187,39 +187,18 @@ function submit() {
                                         id="company"
                                         v-model="form.company"
                                         :placeholder="__('Company name')"
-                                </div>
-                            </div>
-
-                            <div class="grid gap-5 sm:grid-cols-2">
-                                <div class="space-y-2">
-                                    <Label for="phone">{{ __('Phone *') }}</Label>
-                                    <Input
-                                        id="phone"
-                                        v-model="form.phone"
-                                        type="tel"
-                                        placeholder="+998 __ ___ __ __"
-                                        required
-                                    <div v-if="form.errors.phone" class="text-sm text-red-600">{{ form.errors.phone }}</div>
-                                </div>
-                                <div class="space-y-2">
-                                    <Label for="email">{{ __('Email') }}</Label>
-                                    <Input
-                                        id="email"
-                                        v-model="form.email"
-                                        type="email"
-                                        placeholder="email@company.uz"
-                                    <div v-if="form.errors.email" class="text-sm text-red-600">{{ form.errors.email }}</div>
+                                    />
                                 </div>
                             </div>
 
                             <div class="grid gap-5 sm:grid-cols-2">
                                 <div class="space-y-2">
                                     <Label for="product">{{ __('Product of interest') }}</Label>
-                                    <Select v-model="form.product_interest"
-                                        >
+                                    <Select v-model="form.product_interest">
                                         <SelectTrigger>
                                             <SelectValue
                                                 :placeholder="__('Select a category')"
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem
@@ -239,7 +218,7 @@ function submit() {
                                         id="quantity"
                                         v-model="form.quantity"
                                         :placeholder="__('e.g. 1000 pcs')"
-                                    <div v-if="form.errors.quantity" class="text-sm text-red-600">{{ form.errors.quantity }}</div>
+                                    />
                                 </div>
                             </div>
 

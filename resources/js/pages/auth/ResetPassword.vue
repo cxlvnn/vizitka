@@ -1,3 +1,12 @@
+<script lang="ts">
+defineOptions({
+    layout: {
+        title: 'Reset password',
+        description: 'Please enter your new password below',
+    },
+});
+</script>
+
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -11,13 +20,6 @@ import { useTranslations } from '@/composables/useTranslations';
 import { update } from '@/routes/password';
 
 const { __ } = useTranslations();
-
-defineOptions({
-    layout: {
-        title: __('Reset password'),
-        description: __('Please enter your new password below'),
-    },
-});
 
 const props = defineProps<{
     token: string;

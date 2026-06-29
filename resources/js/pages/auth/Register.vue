@@ -1,3 +1,12 @@
+<script lang="ts">
+defineOptions({
+    layout: {
+        title: 'Create account',
+        description: 'Join us and start shopping today',
+    },
+});
+</script>
+
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
@@ -12,12 +21,6 @@ import { store } from '@/routes/register';
 
 const { __ } = useTranslations();
 
-defineOptions({
-    layout: {
-        title: __('Create account'),
-        description: __('Join us and start shopping today'),
-    },
-});
 </script>
 
 <template>

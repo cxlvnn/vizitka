@@ -11,7 +11,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { home } from '@/routes';
 import { show } from '@/routes/products';
 import { update, remove, clear } from '@/routes/cart';
-import type { CartItem } from '@/types';
 
 const { __ } = useTranslations();
 
