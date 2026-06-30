@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Translatable\HasTranslations;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -61,7 +62,7 @@ class Product extends Model
             return null;
         }
 
-        return asset('storage/'.$this->image);
+        return Storage::disk('public')->url($this->image);
     }
 
     public function getGalleryUrlsAttribute(): array
@@ -71,7 +72,7 @@ class Product extends Model
         }
 
         return array_map(
-            fn (string $path) => asset('storage/'.$path),
+            fn (string $path) => Storage::disk('public')->url($path),
             $this->gallery
         );
     }

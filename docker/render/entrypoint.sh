@@ -18,6 +18,10 @@ php artisan route:cache
 echo "Caching views..."
 php artisan view:cache
 
+# Ensure public/storage symlink exists (excluded by .dockerignore)
+echo "Linking public/storage..."
+php artisan storage:link --force || true
+
 # Run migrations if database is configured
 if [ -n "$DATABASE_URL" ] || [ -n "$DB_HOST" ]; then
     echo "Running migrations..."
