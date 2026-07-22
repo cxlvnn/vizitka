@@ -143,8 +143,8 @@ function discountBadge(product: { discount?: number }): string {
             </div>
         </div>
 
-        <!-- Bottom gradient fade to advantages section -->
-        <div class="absolute bottom-0 h-16 w-full bg-gradient-to-t from-white to-transparent"></div>
+        <!-- Subtle bottom edge fade -->
+        <div class="absolute bottom-0 h-16 w-full bg-gradient-to-t from-[#0a4d3c]/40 to-transparent"></div>
     </section>
 
     <!-- Advantages -->
