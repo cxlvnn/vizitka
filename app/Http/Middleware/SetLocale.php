@@ -17,7 +17,7 @@ class SetLocale
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $request->cookie('locale')
-            ?? $request->getPreferredLanguage(['en', 'ru', 'uz'])
+            ?? $request->getPreferredLanguage(['ru', 'en', 'uz'])
             ?? config('app.locale');
 
         App::setLocale($locale);
