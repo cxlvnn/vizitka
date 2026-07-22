@@ -89,13 +89,19 @@ class ProductResource extends Resource
                             ->image()
                             ->disk('public')
                             ->directory('products')
-                            ->label('Главное изображение'),
+                            ->label('Главное изображение')
+                            ->saveUploadedFileUsing(function ($file, $statePath) {
+                                return app(\App\Services\ImageOptimizer::class)->compressAndStore($file, 'products');
+                            }),
                         FileUpload::make('gallery')
                             ->multiple()
                             ->image()
                             ->disk('public')
                             ->directory('products/gallery')
-                            ->label('Галерея'),
+                            ->label('Галерея')
+                            ->saveUploadedFileUsing(function ($file, $statePath) {
+                                return app(\App\Services\ImageOptimizer::class)->compressAndStore($file, 'products/gallery');
+                            }),
                         Grid::make(3)
                             ->schema([
                                 Toggle::make('is_new')
