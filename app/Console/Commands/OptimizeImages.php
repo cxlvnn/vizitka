@@ -8,7 +8,6 @@ use App\Models\Product;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 
 class OptimizeImages extends Command
 {
@@ -20,7 +19,7 @@ class OptimizeImages extends Command
 
     public function handle(): int
     {
-        $manager = new ImageManager(new Driver());
+        $manager = new ImageManager(\Intervention\Image\Drivers\Gd\Driver::class);
         $disk = Storage::disk('public');
         $dryRun = $this->option('dry-run');
 
@@ -55,20 +54,20 @@ class OptimizeImages extends Command
             }
 
             try {
-                $image = $manager->read($fullPath);
+                $image = $this->manager->decodePath($fullPath);
 
                 // Resize if dimension exceeds 1600px (preserving aspect ratio)
-                $image->scaleDown(width: 1600, height: 1600);
+                $image->scaleDown(1600, 1600);
 
                 if (! $dryRun) {
                     if ($ext === 'png') {
-                        $image->encodeByExtension('png', progressive: true);
+                        $image->encode(new \Intervention\Image\Encoders\PngEncoder());
                     } elseif (in_array($ext, ['jpg', 'jpeg'])) {
-                        $image->encodeByExtension('jpg', quality: 85, progressive: true);
+                        $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true));
                     } elseif ($ext === 'webp') {
-                        $image->encodeByExtension('webp', quality: 85);
+                        $image->encode(new \Intervention\Image\Encoders\WebpEncoder(quality: 85));
                     } elseif ($ext === 'avif') {
-                        $image->encodeByExtension('avif', quality: 75);
+                        $image->encode(new \Intervention\Image\Encoders\AvifEncoder(quality: 75));
                     }
 
                     $image->save($fullPath);

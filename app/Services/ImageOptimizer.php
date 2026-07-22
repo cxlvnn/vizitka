@@ -7,7 +7,6 @@ namespace App\Services;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 
 class ImageOptimizer
@@ -16,7 +15,7 @@ class ImageOptimizer
 
     public function __construct()
     {
-        $this->manager = new ImageManager(new Driver());
+        $this->manager = new ImageManager(\Intervention\Image\Drivers\Gd\Driver::class);
     }
 
     /**
@@ -43,17 +42,17 @@ class ImageOptimizer
             mkdir($dir, 0755, true);
         }
 
-        $image = $this->manager->read($file->getRealPath());
+        $image = $this->manager->decodePath($file->getRealPath());
 
         // Scale down large images (max 1600px on longest side, preserving aspect ratio)
-        $image->scaleDown(width: 1600, height: 1600);
+        $image->scaleDown(1600, 1600);
 
         match ($ext) {
-            'png' => $image->encodeByExtension('png', progressive: true),
-            'jpg', 'jpeg' => $image->encodeByExtension('jpg', quality: 85, progressive: true),
-            'webp' => $image->encodeByExtension('webp', quality: 85),
-            'avif' => $image->encodeByExtension('avif', quality: 75),
-            default => $image->encodeByExtension('jpg', quality: 85, progressive: true),
+            'png' => $image->encode(new \Intervention\Image\Encoders\PngEncoder()),
+            'jpg', 'jpeg' => $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true)),
+            'webp' => $image->encode(new \Intervention\Image\Encoders\WebpEncoder(quality: 85)),
+            'avif' => $image->encode(new \Intervention\Image\Encoders\AvifEncoder(quality: 75)),
+            default => $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true)),
         };
 
         $image->save($fullPath);
@@ -76,14 +75,14 @@ class ImageOptimizer
             return;
         }
 
-        $image = $this->manager->read($absolutePath);
-        $image->scaleDown(width: 1600, height: 1600);
+        $image = $this->manager->decodePath($absolutePath);
+        $image->scaleDown(1600, 1600);
 
         match ($ext) {
-            'png' => $image->encodeByExtension('png', progressive: true),
-            'jpg', 'jpeg' => $image->encodeByExtension('jpg', quality: 85, progressive: true),
-            'webp' => $image->encodeByExtension('webp', quality: 85),
-            'avif' => $image->encodeByExtension('avif', quality: 75),
+            'png' => $image->encode(new \Intervention\Image\Encoders\PngEncoder()),
+            'jpg', 'jpeg' => $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true)),
+            'webp' => $image->encode(new \Intervention\Image\Encoders\WebpEncoder(quality: 85)),
+            'avif' => $image->encode(new \Intervention\Image\Encoders\AvifEncoder(quality: 75)),
         };
 
         $image->save($absolutePath);
