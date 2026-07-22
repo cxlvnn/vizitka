@@ -67,19 +67,51 @@ function discountBadge(product: { discount?: number }): string {
     />
 
     <!-- Hero -->
-    <section class="relative bg-slate-900 text-white">
-        <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
+    <section class="relative overflow-hidden bg-[#0a4d3c] text-white">
+        <!-- Decorative geometric pattern -->
+        <div
+            class="pointer-events-none absolute inset-0 opacity-10"
+            style="
+                background-image:
+                    linear-gradient(30deg, #facc15 12%, transparent 12.5%, transparent 87%, #facc15 87.5%, #facc15),
+                    linear-gradient(150deg, #facc15 12%, transparent 12.5%, transparent 87%, #facc15 87.5%, #facc15),
+                    linear-gradient(30deg, #facc15 12%, transparent 12.5%, transparent 87%, #facc15 87.5%, #facc15),
+                    linear-gradient(150deg, #facc15 12%, transparent 12.5%, transparent 87%, #facc15 87.5%, #facc15),
+                    linear-gradient(60deg, #facc1577 25%, transparent 25.5%, transparent 75%, #facc1577 75%, #facc1577),
+                    linear-gradient(60deg, #facc1577 25%, transparent 25.5%, transparent 75%, #facc1577 75%, #facc1577);
+                background-size: 80px 140px;
+                background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            "
+        ></div>
+
+        <!-- Large logo watermark -->
+        <div class="pointer-events-none absolute -right-20 -top-20 opacity-[0.07]">
+            <img
+                src="/images/logo.jpeg"
+                alt=""
+                class="h-[500px] w-[500px] object-contain sm:h-[600px] sm:w-[600px] lg:h-[800px] lg:w-[800px]"
+            />
+        </div>
+
+        <!-- Content -->
+        <div class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
             <div class="max-w-2xl">
-                <Badge
-                    variant="outline"
-                    class="mb-4 border-blue-400 text-blue-300"
-                >
-                    {{ __('Textile accessories from the manufacturer') }}
-                </Badge>
+                <!-- Logo badge -->
+                <div class="mb-6 inline-flex items-center gap-3 rounded-xl bg-white/10 px-4 py-2 backdrop-blur-sm">
+                    <img
+                        src="/images/logo.jpeg"
+                        alt="Mirum Textile"
+                        class="h-8 w-8 rounded object-contain"
+                    />
+                    <span class="text-sm font-medium text-yellow-300">
+                        Mirum Textile
+                    </span>
+                </div>
+
                 <h1 class="mb-4 text-4xl leading-tight font-bold sm:text-5xl">
                     {{ __('Textile accessories from the manufacturer') }}
                 </h1>
-                <p class="mb-8 text-lg text-slate-300">
+                <p class="mb-8 text-lg text-white/80">
                     {{
                         __(
                             'Production of flat-knit collars and cuffs, cords, ribbons, finished knitwear and scarves.',
@@ -89,7 +121,7 @@ function discountBadge(product: { discount?: number }): string {
                 <div class="flex flex-wrap gap-3">
                     <Button
                         size="lg"
-                        class="bg-blue-600 hover:bg-blue-700"
+                        class="bg-yellow-400 text-[#0a4d3c] hover:bg-yellow-300"
                         as-child
                     >
                         <Link :href="catalog()">
@@ -100,7 +132,7 @@ function discountBadge(product: { discount?: number }): string {
                     <Button
                         size="lg"
                         variant="outline"
-                        class="border-white bg-transparent text-white hover:bg-white hover:text-slate-900"
+                        class="border-white bg-transparent text-white hover:bg-white hover:text-[#0a4d3c]"
                         as-child
                     >
                         <Link :href="contact()">{{
@@ -110,6 +142,9 @@ function discountBadge(product: { discount?: number }): string {
                 </div>
             </div>
         </div>
+
+        <!-- Bottom gradient fade to advantages section -->
+        <div class="absolute bottom-0 h-16 w-full bg-gradient-to-t from-white to-transparent"></div>
     </section>
 
     <!-- Advantages -->
