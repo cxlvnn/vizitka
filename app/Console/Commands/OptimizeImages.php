@@ -54,23 +54,20 @@ class OptimizeImages extends Command
             }
 
             try {
-                $image = $this->manager->decodePath($fullPath);
+                $image = $manager->decodePath($fullPath);
 
                 // Resize if dimension exceeds 1600px (preserving aspect ratio)
                 $image->scaleDown(1600, 1600);
 
                 if (! $dryRun) {
-                    if ($ext === 'png') {
-                        $image->encode(new \Intervention\Image\Encoders\PngEncoder());
-                    } elseif (in_array($ext, ['jpg', 'jpeg'])) {
-                        $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true));
-                    } elseif ($ext === 'webp') {
-                        $image->encode(new \Intervention\Image\Encoders\WebpEncoder(quality: 85));
-                    } elseif ($ext === 'avif') {
-                        $image->encode(new \Intervention\Image\Encoders\AvifEncoder(quality: 75));
-                    }
+                    $encoded = match ($ext) {
+                        'png' => $image->encode(new \Intervention\Image\Encoders\PngEncoder()),
+                        'jpg', 'jpeg' => $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true)),
+                        'webp' => $image->encode(new \Intervention\Image\Encoders\WebpEncoder(quality: 85)),
+                        'avif' => $image->encode(new \Intervention\Image\Encoders\AvifEncoder(quality: 75)),
+                    };
 
-                    $image->save($fullPath);
+                    $encoded->save($fullPath);
                 }
 
                 $afterSize = $dryRun ? $beforeSize * 0.5 : filesize($fullPath); // rough estimate for dry-run

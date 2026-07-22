@@ -47,7 +47,7 @@ class ImageOptimizer
         // Scale down large images (max 1600px on longest side, preserving aspect ratio)
         $image->scaleDown(1600, 1600);
 
-        match ($ext) {
+        $encoded = match ($ext) {
             'png' => $image->encode(new \Intervention\Image\Encoders\PngEncoder()),
             'jpg', 'jpeg' => $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true)),
             'webp' => $image->encode(new \Intervention\Image\Encoders\WebpEncoder(quality: 85)),
@@ -55,7 +55,7 @@ class ImageOptimizer
             default => $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true)),
         };
 
-        $image->save($fullPath);
+        $encoded->save($fullPath);
 
         return $relativePath;
     }
@@ -78,13 +78,13 @@ class ImageOptimizer
         $image = $this->manager->decodePath($absolutePath);
         $image->scaleDown(1600, 1600);
 
-        match ($ext) {
+        $encoded = match ($ext) {
             'png' => $image->encode(new \Intervention\Image\Encoders\PngEncoder()),
             'jpg', 'jpeg' => $image->encode(new \Intervention\Image\Encoders\JpegEncoder(quality: 85, progressive: true)),
             'webp' => $image->encode(new \Intervention\Image\Encoders\WebpEncoder(quality: 85)),
             'avif' => $image->encode(new \Intervention\Image\Encoders\AvifEncoder(quality: 75)),
         };
 
-        $image->save($absolutePath);
+        $encoded->save($absolutePath);
     }
 }
