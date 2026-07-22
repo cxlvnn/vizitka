@@ -137,7 +137,7 @@ class OptimizeImages extends Command
         return array_values(array_unique($paths));
     }
 
-    private function formatBytes(int $bytes): string
+    private function formatBytes(int|float $bytes): string
     {
         $units = ['B', 'KB', 'MB', 'GB'];
         $unitIndex = 0;
