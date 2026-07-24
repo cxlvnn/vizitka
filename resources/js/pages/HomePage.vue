@@ -68,31 +68,6 @@ function discountBadge(product: { discount?: number }): string {
 
     <!-- Hero -->
     <section class="relative overflow-hidden bg-[#0a4d3c] text-white">
-        <!-- Decorative geometric pattern -->
-        <div
-            class="pointer-events-none absolute inset-0 opacity-10"
-            style="
-                background-image:
-                    linear-gradient(30deg, #facc15 12%, transparent 12.5%, transparent 87%, #facc15 87.5%, #facc15),
-                    linear-gradient(150deg, #facc15 12%, transparent 12.5%, transparent 87%, #facc15 87.5%, #facc15),
-                    linear-gradient(30deg, #facc15 12%, transparent 12.5%, transparent 87%, #facc15 87.5%, #facc15),
-                    linear-gradient(150deg, #facc15 12%, transparent 12.5%, transparent 87%, #facc15 87.5%, #facc15),
-                    linear-gradient(60deg, #facc1577 25%, transparent 25.5%, transparent 75%, #facc1577 75%, #facc1577),
-                    linear-gradient(60deg, #facc1577 25%, transparent 25.5%, transparent 75%, #facc1577 75%, #facc1577);
-                background-size: 80px 140px;
-                background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
-            "
-        ></div>
-
-        <!-- Large logo watermark -->
-        <div class="pointer-events-none absolute -right-20 -top-20 opacity-[0.07]">
-            <img
-                src="/images/logo.jpeg"
-                alt=""
-                class="h-[500px] w-[500px] object-contain sm:h-[600px] sm:w-[600px] lg:h-[800px] lg:w-[800px]"
-            />
-        </div>
-
         <!-- Content -->
         <div class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
             <div class="max-w-2xl">
